@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { Box, TextField, Button, Typography, Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { authService } from 'myFireBase';
+import { authService } from '../myFireBase';
 
 const Login = () => {
     const navigate = useNavigate();
 
     // 상태관리
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [data, setData] = useState({
+        email: '',
+        password: '',
+    });
+    const { email, password } = data;
 
     //이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
     const validateEmail = (email) => {
@@ -19,18 +22,24 @@ const Login = () => {
             );
     };
 
-    // 비밀번호가 4글자 이상인지 여부를 확인함.
+    // 비밀번호가 6글자 이상인지 여부를 확인합니다.
     const validatePassword = (password) => {
         return password.length >= 6;
     };
 
-    //위 validateEmail 함수를 통해 이메일 형태 적합 여부를 확인함.
+    //위 validateEmail 함수를 통해 이메일 형태인지 확인합니다.
     const isEmailValid = validateEmail(email);
-    //위 validateEmail 함수를 통해 패스워드 형태 적합 여부를 확인함.
+    //위 validateEmail 함수를 통해 패스워드 형태인지 확인합니다.
     const isPasswordValid = validatePassword(password);
-    // 이메일과 비밀번호 조건이 동시에 만족되는지 확인함.
+    // 이메일과 비밀번호 조건이 동시에 만족되는지 확인합니다.
     const isFormValid = isEmailValid && isPasswordValid;
 
+    // Input 값이 변할 때마다 상태를 업데이트 합니다.
+    const handleChange = (e) => {
+        setData({ ...data, [e.target.name]: e.target.value });
+    };
+
+    // 로그인 버튼 클릭 시 회원 정보를 확인하고 로그인 합니다.
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -59,8 +68,9 @@ const Login = () => {
                     label='Email'
                     type='email'
                     fullWidth
+                    name='email'
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={handleChange}
                 />
                 {!isEmailValid && (
                     <Typography sx={{ color: 'gray' }}>
@@ -74,24 +84,32 @@ const Login = () => {
                     margin='dense'
                     label='Password'
                     type='password'
+                    name='password'
                     fullWidth
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={handleChange}
                 />
                 {!isPasswordValid && (
                     <Typography sx={{ color: 'gray' }}>
-                        비밀번호는 4글자 이상 입니다.
+                        비밀번호는 6글자 이상 입니다.
                     </Typography>
                 )}
                 <Box textAlign='center' sx={{ mt: 3 }}>
-                    <Button fullWidth type='submit' disabled={!isFormValid}>
+                    <Button
+                        fullWidth
+                        type='submit'
+                        disabled={!isFormValid}
+                        variant='outlined'
+                        sx={{ mb: 1 }}
+                    >
                         로그인
                     </Button>
                     <Button
                         fullWidth
                         onClick={() => {
-                            navigate('/signup');
+                            navigate('/register');
                         }}
+                        variant='outlined'
                     >
                         계정 만들러 가기
                     </Button>

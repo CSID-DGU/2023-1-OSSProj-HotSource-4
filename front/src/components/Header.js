@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Box, AppBar, Toolbar, Button, Typography } from '@mui/material';
-import { authService } from 'myFireBase';
 import { useNavigate } from 'react-router-dom';
+import { authService } from '../myFireBase';
+import { AuthContext } from '../context/auth';
+
 const Header = () => {
+    const { user } = useContext(AuthContext);
     const navigate = useNavigate();
-    const logout = () => {
-        authService.signOut();
-        navigate('/');
+
+    const logout = async () => {
+        await authService.signOut();
+        navigate('/login');
     };
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -22,10 +26,32 @@ const Header = () => {
                     >
                         MyChat
                     </Typography>
-
-                    <Button onClick={logout} color='inherit'>
-                        Logout
-                    </Button>
+                    {user ? (
+                        <>
+                            <Button color='inherit' onClick={logout}>
+                                로그아웃
+                            </Button>
+                        </>
+                    ) : (
+                        <>
+                            <Button
+                                color='inherit'
+                                onClick={() => {
+                                    navigate('/login');
+                                }}
+                            >
+                                로그인
+                            </Button>
+                            <Button
+                                color='inherit'
+                                onClick={() => {
+                                    navigate('/register');
+                                }}
+                            >
+                                회원가입
+                            </Button>
+                        </>
+                    )}
                 </Toolbar>
             </AppBar>
         </Box>
