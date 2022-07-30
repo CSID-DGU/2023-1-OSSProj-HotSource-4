@@ -107,8 +107,8 @@ const Home = () => {
             <Grid item xs>
                 <Box sx={{ textAlign: 'center' }}>
                     {chat ? (
-                        <>
-                            <Typography sx={{ mt: 4 }}>
+                        <Box sx={{ bgcolor: '#f8f9fa', pt: 4 }}>
+                            <Typography>
                                 {chat.name}님과 대화 중입니다.
                             </Typography>
                             <MessageForm
@@ -116,10 +116,17 @@ const Home = () => {
                                 msgs={msgs}
                                 text={text}
                                 setText={setText}
+                                user1={user1}
                             />
-                        </>
+                        </Box>
                     ) : (
-                        <Typography>대화할 상대를 클릭하세요.</Typography>
+                        <Box
+                            sx={{
+                                pt: 4,
+                            }}
+                        >
+                            <Typography>대화할 상대를 클릭하세요.</Typography>
+                        </Box>
                     )}
                 </Box>
             </Grid>

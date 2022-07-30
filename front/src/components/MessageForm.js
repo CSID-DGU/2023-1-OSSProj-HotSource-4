@@ -2,9 +2,9 @@ import { Box, Button, Container, InputBase, Typography } from '@mui/material';
 import React from 'react';
 import Moment from 'react-moment';
 
-const MessageForm = ({ handleSubmit, text, setText, msgs }) => {
+const MessageForm = ({ handleSubmit, text, setText, msgs, user1 }) => {
     return (
-        <Container sx={{ py: 3 }}>
+        <Container sx={{ py: 3, bgcolor: '#f8f9fa' }}>
             <Box
                 sx={{
                     height: '75vh',
@@ -15,11 +15,17 @@ const MessageForm = ({ handleSubmit, text, setText, msgs }) => {
                     msgs.map((msg, i) => {
                         return (
                             <>
-                                <Typography textAlign='left'>
+                                <Typography
+                                    textAlign={
+                                        msg.from === user1 ? 'right' : 'left'
+                                    }
+                                >
                                     {msg.text}
                                 </Typography>
                                 <Typography
-                                    textAlign='left'
+                                    textAlign={
+                                        msg.from === user1 ? 'right' : 'left'
+                                    }
                                     sx={{ fontSize: '2px' }}
                                 >
                                     <Moment fromNow>
