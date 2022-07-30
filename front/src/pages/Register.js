@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { Box, Typography, TextField, Button, Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { authService, dbService } from '../myFireBase';
-import { Timestamp } from 'firebase/firestore';
+import { auth, db } from '../myFireBase';
+import { setDoc, doc, Timestamp } from 'firebase/firestore';
 
 const Register = () => {
     const navigate = useNavigate();
 
     // 상태관리
     const [data, setData] = useState({
+        name: '',
         email: '',
         password: '',
         confirmPassword: '',
     });
-    const { email, password, confirmPassword } = data;
+    const { name, email, password, confirmPassword } = data;
 
     //이메일이 test@test.com 형태인지 regex를 이용해 확인합니다.
     const validateEmail = (email) => {
@@ -43,19 +45,19 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await authService.createUserWithEmailAndPassword(
+            const result = await createUserWithEmailAndPassword(
+                auth,
                 email,
                 password
             );
-            await dbService
-                .collection('users')
-                .doc()
-                .set({
-                    uid: res.user.uid,
-                    email,
-                    createdAt: Timestamp.fromDate(new Date()),
-                });
-            setData({ email: '', password: '', confirmPassword: '' });
+            await setDoc(doc(db, 'users', result.user.uid), {
+                uid: result.user.uid,
+                name,
+                email,
+                createdAt: Timestamp.fromDate(new Date()),
+            });
+
+            setData({ name: '', email: '', password: '', confirmPassword: '' });
             navigate('/');
         } catch (e) {
             alert('회원가입에 실패하였습니다.');
@@ -76,6 +78,17 @@ const Register = () => {
                     autoComplete='off'
                     required
                     sx={{ mt: 5 }}
+                    margin='dense'
+                    label='Name'
+                    name='name'
+                    type='text'
+                    fullWidth
+                    value={name}
+                    onChange={handleChange}
+                />
+                <TextField
+                    autoComplete='off'
+                    required
                     margin='dense'
                     label='Email'
                     name='email'

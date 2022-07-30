@@ -1,6 +1,8 @@
 import { createContext, useEffect, useState } from 'react';
-import { authService } from '../myFireBase';
+import { auth } from '../myFireBase';
+import { onAuthStateChanged } from 'firebase/auth';
 import Loading from '../components/Loading';
+
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
@@ -8,7 +10,7 @@ const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        authService.onAuthStateChanged((user) => {
+        onAuthStateChanged(auth, (user) => {
             setUser(user);
             setLoading(false);
         });

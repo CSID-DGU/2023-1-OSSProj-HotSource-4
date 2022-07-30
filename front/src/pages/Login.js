@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Box, TextField, Button, Typography, Container } from '@mui/material';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import { authService } from '../myFireBase';
+import { auth, db } from '../myFireBase';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -43,7 +44,8 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await authService.signInWithEmailAndPassword(email, password);
+            await signInWithEmailAndPassword(auth, email, password);
+            setData({ email: '', password: '' });
             navigate('/');
         } catch (e) {
             alert('로그인에 실패하였습니다.');
