@@ -86,6 +86,7 @@ const Home = () => {
                         친구 목록
                     </Typography>
                     <Divider />
+
                     {users.map((user) => {
                         return (
                             <>

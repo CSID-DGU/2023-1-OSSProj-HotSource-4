@@ -1,10 +1,15 @@
 import { Box, Button, Container, InputBase, Typography } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Moment from 'react-moment';
 
 const MessageForm = ({ handleSubmit, text, setText, msgs, user1 }) => {
     return (
-        <Container sx={{ py: 3, bgcolor: '#f8f9fa' }}>
+        <Container
+            sx={{
+                py: 3,
+                bgcolor: '#f8f9fa',
+            }}
+        >
             <Box
                 sx={{
                     height: '75vh',
@@ -14,25 +19,37 @@ const MessageForm = ({ handleSubmit, text, setText, msgs, user1 }) => {
                 {msgs.length &&
                     msgs.map((msg, i) => {
                         return (
-                            <>
+                            <Box
+                                sx={{
+                                    mt: 1,
+                                    px: 1,
+                                    textAlign:
+                                        msg.from === user1 ? 'right' : 'left',
+                                }}
+                            >
                                 <Typography
-                                    textAlign={
-                                        msg.from === user1 ? 'right' : 'left'
-                                    }
+                                    sx={{
+                                        display: 'inline-block',
+                                        borderRadius: '10px',
+                                        maxWidth: '50%',
+                                        p: 2,
+                                        bgcolor:
+                                            msg.from === user1
+                                                ? '#ffe066'
+                                                : 'white',
+                                    }}
                                 >
                                     {msg.text}
                                 </Typography>
                                 <Typography
-                                    textAlign={
-                                        msg.from === user1 ? 'right' : 'left'
-                                    }
-                                    sx={{ fontSize: '2px' }}
+                                    variant='body2'
+                                    sx={{ opacity: 0.7 }}
                                 >
                                     <Moment fromNow>
                                         {msg.createdAt.toDate()}
                                     </Moment>
                                 </Typography>
-                            </>
+                            </Box>
                         );
                     })}
             </Box>
