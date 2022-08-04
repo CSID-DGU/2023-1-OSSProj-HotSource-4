@@ -1,8 +1,8 @@
-# 사전과제
+# MyChat
 
 https://my-chat-sage.vercel.app
 
-이 프로젝트는 간단한 채팅을 할 수 있는 웹 프로젝트입니다.
+이 프로젝트는 간단한 채팅을 할 수 있는 웹 프로젝트입니다. Firebase를 사용한 풀스택 개발 토이 프로젝트입니다.
 
 -   Login (로그인)
 -   Register (회원가입)
