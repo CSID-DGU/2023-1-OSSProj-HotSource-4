@@ -1,5 +1,10 @@
+import NavBar from "../components/NavBar";
+
 const Class = () => {
-    return (<div>Class</div>)
+    return (<>
+        <NavBar />
+
+    </>)
 }
 
 export default Class;
