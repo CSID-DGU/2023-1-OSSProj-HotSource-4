@@ -8,9 +8,9 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 const darkTheme = createTheme({
     palette: {
-        mode: 'dark',
-        primary: {
-            main: '#1976d2',
+        mode: 'light',
+        primary: {              //헤더 색상
+            main: '#FF9500',
         },
     },
 });
@@ -36,7 +36,7 @@ const Header = () => {
                                 navigate('/');
                             }}
                         >
-                            MyChat
+                            동국대학교 채팅 앱
                         </Typography>
                         {user ? (
                             <>

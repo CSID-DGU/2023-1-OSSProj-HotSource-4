@@ -7,12 +7,12 @@ const MessageForm = ({ handleSubmit, text, setText, msgs, user1 }) => {
         <Container
             sx={{
                 py: 3,
-                bgcolor: '#f8f9fa',
+                bgcolor: '#f8f9fa', //대화 창 색
             }}
         >
             <Box
                 sx={{
-                    height: '75vh',
+                    height: '75vh', //메시지 입력 창 높이
                     overflowy: 'scroll',
                 }}
             >
@@ -30,13 +30,13 @@ const MessageForm = ({ handleSubmit, text, setText, msgs, user1 }) => {
                                   <Typography
                                       sx={{
                                           display: 'inline-block',
-                                          borderRadius: '10px',
-                                          maxWidth: '50%',
-                                          p: 2,
+                                          borderRadius: '10px', //박스 네모난정도
+                                          maxWidth: '50%', //가로로 늘어나는 길이
+                                          p: 2, //추가여백
                                           bgcolor:
                                               msg.from === user1
-                                                  ? '#ffe066'
-                                                  : 'white',
+                                                  ? '#ffe066' //내 메시지 색
+                                                  : 'white', //상대 메시지 색
                                       }}
                                   >
                                       {msg.text}

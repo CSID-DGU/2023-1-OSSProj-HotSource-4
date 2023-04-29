@@ -74,7 +74,7 @@ const Home = () => {
                 item
                 xs={3}
                 sx={{
-                    borderRight: '2px solid #272727',
+                    borderRight: '2px solid #ffcc99',   //친구목록과 대화창 사이 선 색
                 }}
             >
                 <List>
@@ -83,7 +83,7 @@ const Home = () => {
                         textAlign='center'
                         sx={{ my: 3 }}
                     >
-                        친구 목록
+                        수강생 목록
                     </Typography>
                     <Divider />
 
@@ -107,10 +107,10 @@ const Home = () => {
             </Grid>
             <Grid item xs>
                 <Box sx={{ textAlign: 'center' }}>
-                    {chat ? (
+                    {chat ? ( //대화중입니다 헤더 색
                         <Box sx={{ bgcolor: '#f8f9fa', pt: 4 }}>
                             <Typography>
-                                {chat.name}님과 대화 중입니다.
+                                {chat.name} 수강생과 대화 중입니다.
                             </Typography>
                             <MessageForm
                                 handleSubmit={handleSubmit}
@@ -126,7 +126,7 @@ const Home = () => {
                                 pt: 4,
                             }}
                         >
-                            <Typography>대화할 상대를 클릭하세요.</Typography>
+                            <Typography>대화할 수강생을 클릭하세요.</Typography>
                         </Box>
                     )}
                 </Box>

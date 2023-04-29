@@ -3,15 +3,16 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-    apiKey: process.env.REACT_APP_API_KEY,
-    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
-    projectId: process.env.REACT_APP_PROJECT_ID,
-    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
-    appId: process.env.REACT_APP_APP_ID,
-    measurementId: process.env.REACT_APP_MEASUREMENT_ID,
-};
+    apiKey: "AIzaSyAGYKEVxH2AMO0MOQIS9vnjp5WgNZY4fPE",
+    authDomain: "reactchat-2d807.firebaseapp.com",
+    projectId: "reactchat-2d807",
+    storageBucket: "reactchat-2d807.appspot.com",
+    messagingSenderId: "894501345757",
+    appId: "1:894501345757:web:8beeccaf4b05de7f6cfe34",
+    measurementId: "G-BR98VV2VTL"
+  };
 
+  
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
