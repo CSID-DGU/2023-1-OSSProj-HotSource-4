@@ -8,6 +8,7 @@ import Register from './pages/Register';
 import Header from './components/Header';
 import AuthProvider from './context/auth';
 import PrivateRoute from './components/PrivateRoute';
+import Eclass from './pages/Eclass';
 
 function App() {
     return (
@@ -16,7 +17,7 @@ function App() {
             <Router>
                 <Header />
                 <Routes>
-                    <Route
+                <Route
                         path='/'
                         element={
                             <PrivateRoute>
@@ -24,6 +25,15 @@ function App() {
                             </PrivateRoute>
                         }
                     />
+                    <Route
+                        path='/Eclass'
+                        element={
+                            <PrivateRoute>
+                                <Eclass />
+                            </PrivateRoute>
+                        }
+                    />
+                    
                     <Route path='/login' element={<Login />} />
                     <Route path='/register' element={<Register />} />
                 </Routes>

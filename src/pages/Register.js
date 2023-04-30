@@ -18,23 +18,23 @@ const Register = () => {
     const { name, email, password, confirmPassword } = data;
 
     //이메일이 test@test.com 형태인지 regex를 이용해 확인합니다.
-    const validateEmail = (email) => {
-        return email
-            .toLowerCase()
-            .match(
-                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-            );
-    };
+    // const validateEmail = (email) => {
+    //     return email
+    //         .toLowerCase()
+    //         .match(
+    //             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    //         );
+    // };
 
     //위 validateEmail 함수를 통해 이메일 형태인지 확인합니다.
-    const isEmailValid = validateEmail(email);
-    // 비밀번호가 4글자 이상인지 여부를 확인합니다.
+    // const isEmailValid = validateEmail(email);
+    // 비밀번호가 6글자 이상인지 여부를 확인합니다.
     const isPasswordValid = password.length >= 6;
     // 비밀번호와 비밀번호확인이 일치하는지 여부를 확인합니다.
     const isPasswordSame = password === confirmPassword;
 
     // 위 4개 조건이 모두 동시에 만족되는지 확인합니다.
-    const isFormValid = isEmailValid && isPasswordValid && isPasswordSame;
+    // const isFormValid = isEmailValid && isPasswordValid && isPasswordSame;
 
     // Input 값이 변할 때마다 상태를 업데이트 합니다.
     const handleChange = (e) => {
@@ -47,7 +47,7 @@ const Register = () => {
         try {
             const result = await createUserWithEmailAndPassword(
                 auth,
-                email,
+                `${email}@naver.com`,
                 password
             );
             await setDoc(doc(db, 'users', result.user.uid), {
@@ -90,18 +90,18 @@ const Register = () => {
                     autoComplete='off'
                     required
                     margin='dense'
-                    label='Email'
+                    label='학번'
                     name='email'
-                    type='email'
+                    // type='email'
                     fullWidth
                     value={email}
                     onChange={handleChange}
                 />
-                {!isEmailValid && (
+                {/* {!isEmailValid && (
                     <Typography sx={{ color: 'gray' }}>
                         이메일 형식이 올바르지 않습니다.
                     </Typography>
-                )}
+                )} */}
                 <TextField
                     autoComplete='off'
                     required
@@ -139,7 +139,7 @@ const Register = () => {
                 <Box textAlign='center' sx={{ mt: 3 }}>
                     <Button
                         fullWidth
-                        disabled={!isFormValid}
+                        // disabled={!isFormValid}
                         type='submit'
                         sx={{ mb: 1 }}
                         variant='outlined'

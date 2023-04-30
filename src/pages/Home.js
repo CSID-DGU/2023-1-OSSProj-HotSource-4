@@ -69,7 +69,7 @@ const Home = () => {
     };
 
     return (
-        <Grid container sx={{ height: 'calc(100vh - 64px)' }}>
+        <Grid container sx={{height: '65vh'/*사이 선 길이*/}}>
             <Grid
                 item
                 xs={3}

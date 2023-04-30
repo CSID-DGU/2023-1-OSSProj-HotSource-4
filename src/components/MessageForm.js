@@ -1,8 +1,26 @@
 import { Box, Button, Container, InputBase, Typography } from '@mui/material';
-import React from 'react';
 import Moment from 'react-moment';
+import React, { useState, useEffect, useRef } from 'react';
 
 const MessageForm = ({ handleSubmit, text, setText, msgs, user1 }) => {
+    const [shouldScroll, setShouldScroll] = useState(true);
+    const messageEndRef = useRef(null);
+
+    useEffect(() => {
+        if (shouldScroll) {
+            messageEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [msgs, shouldScroll]);
+
+    const handleScroll = (e) => {
+        const { scrollTop, clientHeight, scrollHeight } = e.target;
+        if (scrollHeight - scrollTop === clientHeight) {
+            setShouldScroll(true);
+        } else {
+            setShouldScroll(false);
+        }
+    };
+
     return (
         <Container
             sx={{
@@ -12,9 +30,10 @@ const MessageForm = ({ handleSubmit, text, setText, msgs, user1 }) => {
         >
             <Box
                 sx={{
-                    height: '75vh', //메시지 입력 창 높이
-                    overflowy: 'scroll',
+                    height: '49vh', //메시지 입력 창 높이
+                    overflowY: 'scroll',
                 }}
+                onScroll={handleScroll}
             >
                 {msgs.length
                     ? msgs.map((msg, i) => {
@@ -53,6 +72,7 @@ const MessageForm = ({ handleSubmit, text, setText, msgs, user1 }) => {
                           );
                       })
                     : null}
+                <div ref={messageEndRef} />
             </Box>
             <Box component='form' onSubmit={handleSubmit}>
                 <Box

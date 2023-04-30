@@ -32,9 +32,9 @@ const Header = () => {
                             variant='h6'
                             component='div'
                             sx={{ flexGrow: 1 }}
-                            onClick={() => {
-                                navigate('/');
-                            }}
+                            // onClick={() => {
+                            //     navigate('/');
+                            // }}
                         >
                             동국대학교 채팅 앱
                         </Typography>
@@ -54,14 +54,14 @@ const Header = () => {
                                 >
                                     로그인
                                 </Button>
-                                <Button
+                                {/* <Button
                                     color='inherit'
                                     onClick={() => {
                                         navigate('/register');
                                     }}
                                 >
                                     회원가입
-                                </Button>
+                                </Button> */}
                             </>
                         )}
                     </Toolbar>

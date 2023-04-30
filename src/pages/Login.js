@@ -15,13 +15,13 @@ const Login = () => {
     const { email, password } = data;
 
     //이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
-    const validateEmail = (email) => {
-        return email
-            .toLowerCase()
-            .match(
-                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-            );
-    };
+    // const validateEmail = (email) => {
+    //     return email
+    //         .toLowerCase()
+    //         .match(
+    //             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    //         );
+    // };
 
     // 비밀번호가 6글자 이상인지 여부를 확인합니다.
     const validatePassword = (password) => {
@@ -29,11 +29,11 @@ const Login = () => {
     };
 
     //위 validateEmail 함수를 통해 이메일 형태인지 확인합니다.
-    const isEmailValid = validateEmail(email);
+    // const isEmailValid = validateEmail(email);
     //위 validateEmail 함수를 통해 패스워드 형태인지 확인합니다.
     const isPasswordValid = validatePassword(password);
     // 이메일과 비밀번호 조건이 동시에 만족되는지 확인합니다.
-    const isFormValid = isEmailValid && isPasswordValid;
+    // const isFormValid = isEmailValid && isPasswordValid;
 
     // Input 값이 변할 때마다 상태를 업데이트 합니다.
     const handleChange = (e) => {
@@ -44,9 +44,9 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await signInWithEmailAndPassword(auth, email, password);
+            await signInWithEmailAndPassword(auth, `${email}@naver.com`, password);
             setData({ email: '', password: '' });
-            navigate('/');
+            navigate('/Eclass');
         } catch (e) {
             alert('로그인에 실패하였습니다.');
         }
@@ -67,18 +67,18 @@ const Login = () => {
                     required
                     sx={{ mt: 5 }}
                     margin='dense'
-                    label='Email'
-                    type='email'
+                    label='학번'
+                    // type='email'
                     fullWidth
                     name='email'
                     value={email}
                     onChange={handleChange}
                 />
-                {!isEmailValid && (
+                {/* {!isEmailValid && (
                     <Typography sx={{ color: 'gray' }}>
                         이메일 형식이 올바르지 않습니다.
                     </Typography>
-                )}
+                )} */}
                 <TextField
                     autoComplete='off'
                     required
@@ -100,9 +100,10 @@ const Login = () => {
                     <Button
                         fullWidth
                         type='submit'
-                        disabled={!isFormValid}
+                        // disabled={!isFormValid}
                         variant='outlined'
-                        sx={{ mb: 1 }}
+                        sx={{ mb: 1, borderColor: '#FF9500', color: '#FF6A00'}}
+                        
                     >
                         로그인
                     </Button>
@@ -112,6 +113,7 @@ const Login = () => {
                             navigate('/register');
                         }}
                         variant='outlined'
+                        sx={{ borderColor: '#FF9500', color: '#FF6A00'}}
                     >
                         계정 만들러 가기
                     </Button>
