@@ -1,8 +1,13 @@
 import { Box, Button, Container, InputBase, Typography } from '@mui/material';
 import Moment from 'react-moment';
 import React, { useState, useEffect, useRef } from 'react';
-
-const MessageForm = ({ handleSubmit, text, setText, msgs, user1 }) => {
+import {
+    List,
+    ListItemButton,
+    ListItemText,
+  } from '@mui/material';
+  
+const MessageForm = ({ handleSubmit, text, setText, msgs, user1, name }) => {
     const [shouldScroll, setShouldScroll] = useState(true);
     const messageEndRef = useRef(null);
 
@@ -51,21 +56,20 @@ const MessageForm = ({ handleSubmit, text, setText, msgs, user1 }) => {
                                           display: 'inline-block',
                                           borderRadius: '10px', //박스 네모난정도
                                           maxWidth: '50%', //가로로 늘어나는 길이
-                                          p: 2, //추가여백
+                                          p: 1, //추가여백
                                           bgcolor:
                                               msg.from === user1
                                                   ? '#ffe066' //내 메시지 색
                                                   : 'white', //상대 메시지 색
                                       }}
-                                  >
-                                      {msg.text}
+                                  >{msg.text}
                                   </Typography>
-                                  <Typography
+                                  <Typography style={{ fontSize: '12px' }}
                                       variant='body2'
                                       sx={{ opacity: 0.7 }}
-                                  >
+                                  >{msg.name}<msg> </msg>
                                       <Moment fromNow>
-                                          {msg.createdAt.toDate()}
+                                        {msg.createdAt.toDate()}
                                       </Moment>
                                   </Typography>
                               </Box>

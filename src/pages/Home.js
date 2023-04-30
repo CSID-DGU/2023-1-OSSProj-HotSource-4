@@ -109,7 +109,7 @@ const Home = () => {
                 <Box sx={{ textAlign: 'center' }}>
                     {chat ? ( //대화중입니다 헤더 색
                         <Box sx={{ bgcolor: '#f8f9fa', pt: 4 }}>
-                            <Typography>
+                            <Typography style={{ fontSize: '20px' }}>
                                 {chat.name} 수강생과 대화 중입니다.
                             </Typography>
                             <MessageForm
@@ -126,7 +126,7 @@ const Home = () => {
                                 pt: 4,
                             }}
                         >
-                            <Typography>대화할 수강생을 클릭하세요.</Typography>
+                            <Typography style={{ fontSize: '20px' }}>대화할 수강생을 클릭하세요.</Typography>
                         </Box>
                     )}
                 </Box>

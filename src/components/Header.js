@@ -36,7 +36,7 @@ const Header = () => {
                             //     navigate('/');
                             // }}
                         >
-                            동국대학교 채팅 앱
+                            채팅하기
                         </Typography>
                         {user ? (
                             <>

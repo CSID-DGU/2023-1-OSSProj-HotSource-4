@@ -9,6 +9,7 @@ import Header from './components/Header';
 import AuthProvider from './context/auth';
 import PrivateRoute from './components/PrivateRoute';
 import Eclass from './pages/Eclass';
+import TeamChat from './pages/TeamChat';
 
 function App() {
     return (
@@ -33,9 +34,9 @@ function App() {
                             </PrivateRoute>
                         }
                     />
-                    
                     <Route path='/login' element={<Login />} />
                     <Route path='/register' element={<Register />} />
+                    <Route path='/TeamChat' element={<TeamChat />} />
                 </Routes>
             </Router>
         </AuthProvider>
