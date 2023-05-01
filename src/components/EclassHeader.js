@@ -36,13 +36,13 @@ const Header = () => {
                             //     navigate('/');
                             // }}
                         >
-                            채팅하기
+                            이클래스
                         </Typography>
                         {user ? (
                             <>
-                                {/* <Button color='inherit' onClick={logout}>
+                                <Button color='inherit' onClick={logout}>
                                     로그아웃
-                                </Button> */}
+                                </Button>
                             </>
                         ) : (
                             <>

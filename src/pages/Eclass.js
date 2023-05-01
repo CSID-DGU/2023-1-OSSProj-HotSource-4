@@ -31,7 +31,7 @@ function Eclass() {
     <div>
       <Box textAlign='center' sx={{ mx: 'auto', mt: 3, maxWidth: '300px' }}>
         <Button onClick={openModal} variant='outlined' sx={{ borderColor: '#FF9500', color: '#FF6A00'}}>
-          개인 채팅 / 조원 단체 채팅
+          채팅 하기
         </Button>
       </Box>
       <Modal className='Modal' isOpen={isModalOpen} onRequestClose={closeModal}>
@@ -40,14 +40,14 @@ function Eclass() {
           {isTeamChat ? <TeamChat /> : <Home />}
         </div>
         <div>
-          <Button
+          {/* <Button
             fullWidth
             onClick={toggleView}
             variant='outlined'
             sx={{ borderColor: '#FF9500', color: '#FF6A00', margin: '10px 0', marginLeft: 1 ,minWidth:"200px", maxWidth: "200px", display: 'block' }}
           >
             {isTeamChat ? '개인 채팅으로' : '조원 단체 채팅으로'}
-          </Button>
+          </Button> */}
           <Button
             fullWidth
             onClick={closeModal}

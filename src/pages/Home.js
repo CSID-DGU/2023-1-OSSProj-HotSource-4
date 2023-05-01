@@ -68,8 +68,8 @@ const Home = () => {
         setText('');
     };
 
-    return (
-        <Grid container sx={{height: '65vh'/*사이 선 길이*/}}>
+    return (        
+        <Grid container sx={{height: '65vh'/*사이 선 길이*/}}> 
             <Grid
                 item
                 xs={3}

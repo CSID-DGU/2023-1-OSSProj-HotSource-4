@@ -10,33 +10,44 @@ import AuthProvider from './context/auth';
 import PrivateRoute from './components/PrivateRoute';
 import Eclass from './pages/Eclass';
 import TeamChat from './pages/TeamChat';
+import EclassHeader from './components/EclassHeader';
 
 function App() {
     return (
         <AuthProvider>
             <CssBaseline />
-            <Router>
-                <Header />
+            <Router>               
                 <Routes>
                 <Route
                         path='/'
                         element={
+                            <div>
+                            <Header />
                             <PrivateRoute>
                                 <Home />
                             </PrivateRoute>
+                            </div>
                         }
                     />
                     <Route
                         path='/Eclass'
                         element={
+                            <div>
+                            <EclassHeader />
                             <PrivateRoute>
                                 <Eclass />
                             </PrivateRoute>
+                            </div>
                         }
                     />
                     <Route path='/login' element={<Login />} />
                     <Route path='/register' element={<Register />} />
-                    <Route path='/TeamChat' element={<TeamChat />} />
+                    <Route path='/TeamChat' element={
+                        <div>
+                        <Header />
+                        <TeamChat />
+                        </div>
+                    } />
                 </Routes>
             </Router>
         </AuthProvider>
