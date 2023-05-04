@@ -4,17 +4,13 @@ import {
     Link,
     Stack,
     Heading,
-    Flex,
-    Menu,
-    MenuItem,
-    MenuList,
-    MenuButton,
-    IconButton,
     Text,
     Button,
+    Divider,
     StackDivider
 } from "@chakra-ui/react";
 import { EmailIcon } from "@chakra-ui/icons";
+import { BsFillHouseFill, BsPersonFill, BsChatSquare } from "react-icons/bs";
 
 const LinkItem = ({href, path, target, children, ...props}) => (
     <Link
@@ -45,51 +41,58 @@ const NavBar = (props) => {
         >
             <Container
             display="flex"
-            p={3}
-            maxW="80%"
+            p={0}
+            maxW="81%"
             wrap="wrap"
-            //align="center"
+            align="center"
             justify="space-between"
             >
                 <Stack
-                    divider={<StackDivider borderColor='gray.200' />}
+                    divider={<StackDivider borderColor='gray.600' />}
                     direction={{ base: 'row', md: 'row'}}
                     display={{ base: 'flex', md: 'flex'}}
                     width={{ base: 'full', md: 'auto'}}
                     alignItems="center"
                     flexGrow={1}
-                    mt={{ base: 4, md: 0}}
+                    mt={{ base: 0, md: 0}}
                 >
+                    <LinkItem m={0} p={0}/>
                     <LinkItem href="/home" path={path}>
-                        <Text>
-                        홈으로
-                        </Text>
+                        <BsFillHouseFill size="25" />
+                        <Button variant="link" colorScheme='white' size='xs'>
+                            홈으로
+                        </Button>
                     </LinkItem>
                     <LinkItem href="/my" path={path}>
-                        마이페이지
+                        <BsPersonFill size="25" />
+                        <Button variant="link" colorScheme='white' size='xs'>
+                            마이페이지
+                        </Button>
                     </LinkItem>
+                    <LinkItem m={0} p={0}/>
 
                 </Stack>
 
 
                 <Stack
                     align="right"
-                    divider={<StackDivider borderColor='gray.200' />}
+                    divider={<StackDivider borderColor='gray.600' />}
                     direction={{ base: 'row-reverse', md: 'row-reverse'}}
                     display={{ base: 'flex', md: 'flex'}}
                     width={{ base: 'full', md: 'auto'}}
                     alignItems="center"
                     flexGrow={1}
-                    mt={{ base: 4, md: 0}}
+                    mt={{ base: 0, md: 0}}
                 >
+                    <Box />
                     <Box ml={10}>
-                        <Text color="white" fontWeight="bold" fontSize={14} whiteSpace="inherit">
+                        <Text color="white" fontWeight="bold" fontSize={14} whiteSpace="inherit" align="left">
                             민헌준
                         </Text>
-                        <Button variant="solid" colorScheme='teal' size='xs' mr={1}>
+                        <Button variant="solid" colorScheme='gray' size='xs' mr={1}>
                             대표 권한 설정
                         </Button>
-                        <Button variant="solid" colorScheme="teal" size='xs' mr={1}>
+                        <Button variant="solid" colorScheme="gray" size='xs' mr={1}>
                             로그아웃
                         </Button>
                     </Box>
@@ -100,6 +103,7 @@ const NavBar = (props) => {
                            </Text>
                        </Button>
                     </Box>
+                    <Box />
                 </Stack>
             </Container>
         </Box>
