@@ -17,18 +17,7 @@ function App() {
         <AuthProvider>
             <CssBaseline />
             <Router>               
-                <Routes>
-                <Route
-                        path='/'
-                        element={
-                            <div>
-                            <Header />
-                            <PrivateRoute>
-                                <Home />
-                            </PrivateRoute>
-                            </div>
-                        }
-                    />
+                <Routes>               
                     <Route
                         path='/Eclass'
                         element={
@@ -36,6 +25,17 @@ function App() {
                             <EclassHeader />
                             <PrivateRoute>
                                 <Eclass />
+                            </PrivateRoute>
+                            </div>
+                        }
+                    />
+                     <Route
+                        path='/'
+                        element={
+                            <div>
+                            <Header />
+                            <PrivateRoute>
+                                <Home />
                             </PrivateRoute>
                             </div>
                         }

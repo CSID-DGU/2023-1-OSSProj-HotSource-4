@@ -23,6 +23,7 @@ const Header = () => {
         await signOut(auth);
         navigate('/login');
     };
+    
     return (
         <ThemeProvider theme={darkTheme}>
             <Box sx={{ flexGrow: 1 }}>
@@ -40,9 +41,9 @@ const Header = () => {
                         </Typography>
                         {user ? (
                             <>
-                                {/* <Button color='inherit' onClick={logout}>
+                                <Button color='inherit' onClick={logout}>
                                     로그아웃
-                                </Button> */}
+                                </Button>
                             </>
                         ) : (
                             <>
