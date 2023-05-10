@@ -135,8 +135,13 @@ const resolvers = {
       if (!group || !group.members.includes(user._id)) {
         throw new Error("Unauthorized");
       }
-      group.members.push(userId);
-      return group.save();
+      if (!group.members.includes(userId)) {
+        group.members.push(userId);
+        await group.save();
+      }
+      // Populate the members field with user objects before returning
+      await Group.populate(group, "members");
+      return group;
     },
   },
 };
