@@ -50,14 +50,14 @@ const NavBar = (props) => {
                 <Stack
                     divider={<StackDivider borderColor='gray.600' />}
                     direction={{ base: 'row', md: 'row'}}
-                    display={{ base: 'flex', md: 'flex'}}
+                    display={{ base: 'flex', md: 'flex', sm: 'none'}}
                     width={{ base: 'full', md: 'auto'}}
                     alignItems="center"
                     flexGrow={1}
                     mt={{ base: 0, md: 0}}
                 >
                     <LinkItem m={0} p={0}/>
-                    <LinkItem href="/home" path={path}>
+                    <LinkItem href="/" path={path}>
                         <BsFillHouseFill size="25" />
                         <Button variant="link" colorScheme='white' size='xs'>
                             홈으로
