@@ -60,7 +60,6 @@ const ClassTitleBox = () => {
                         p="10px"
                         flexWrap="wrap"
                         borderRadius={10}
-                        p={2}
                     >
                         <HStack
                             justifyContent="space-between"
