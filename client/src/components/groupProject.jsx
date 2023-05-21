@@ -27,7 +27,7 @@ import {Icon} from "@chakra-ui/icons";
 import {BsFillSendFill} from "react-icons/bs";
 
 
-const Card = ({title, children}) => {
+const GroupProject = ({title, children}) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     return(
@@ -122,13 +122,14 @@ const Card = ({title, children}) => {
                             </Box>
                         </Box>
                         <Box flex={3} w="100%" h="500px" bgColor="#EEEEEE">
-                            <VStack p={2}>
-                                <Box w="100%" bgColor="#ECEEF1" p={3} >
+                            <VStack >
+                                <Box  w="100%" bgColor="#ECEEF1" p={3} >
                                     <HStack justify="space-between">
                                         <Text fontWeight="700" > 채팅 </Text>
+                                        <Button onClick={onOpen} size="xs" bgColor="blackAlpha.700" textColor="whiteAlpha.800" borderRadius={0}>팀원 보기 </Button>
                                     </HStack>
                                 </Box>
-                                <Box w="100%" h="380px" bgColor="whiteAlpha.700" borderRadius="30px" overflow="scroll" p={3}>
+                                <Box w="100%" h="380px" bgColor="whiteAlpha.700" overflow="scroll" p={3}>
                                     CHAT AREA
                                 </Box>
                                 <Box w="95%" >
@@ -144,7 +145,8 @@ const Card = ({title, children}) => {
                         <Box flex={1.5} w="100%" h="500px" bgColor="blackAlpha.800">
                             <Box w="100%" bgColor="#ECEEF1" p={3} >
                                 <HStack justify="space-between">
-                                    <Text fontWeight="700" > 팀원 </Text>
+                                    <Text fontWeight="700" > 파일 </Text>
+                                    <Button onClick={onOpen} size="xs" bgColor="blackAlpha.700" textColor="whiteAlpha.800" borderRadius={0}>업로드</Button>
                                 </HStack>
                             </Box>
                         </Box>
@@ -164,4 +166,4 @@ const Card = ({title, children}) => {
     )
 }
 
-export default Card;
+export default GroupProject;

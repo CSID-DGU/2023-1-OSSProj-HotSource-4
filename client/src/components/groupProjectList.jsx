@@ -12,10 +12,10 @@ import {
     Checkbox, VStack, HStack, Thead, Tr, Th, Table, Td, Progress, Tbody
 } from "@chakra-ui/react";
 import {useEffect, useState} from "react";
-import Card from "./card.jsx"
+import GroupProject from "./groupProject.jsx"
 
 
-const GridList = (props) => {
+const GroupProjectList = (props) => {
     const [ inProgress, setInProgress ] = useState(true);
     const [ done, setDone ] = useState(true)
     const [ index, setIndex ] = useState([])
@@ -33,21 +33,15 @@ const GridList = (props) => {
             </HStack>
 
             <Grid gap="70px">
-                <Card {...props}>
+                <GroupProject {...props}>
                     CHILDREN
-                </Card>
-                <Card {...props}>
+                </GroupProject>
+                <GroupProject {...props}>
                     CHILDREN
-                </Card>
-                <Card {...props}>
+                </GroupProject>
+                <GroupProject {...props}>
                     CHILDREN
-                </Card>
-                <Card {...props}>
-                    CHILDREN
-                </Card>
-                <Card {...props}>
-                    CHILDREN
-                </Card>
+                </GroupProject>
 
             </Grid>
         </Box>
@@ -56,4 +50,4 @@ const GridList = (props) => {
 }
 
 
-export default GridList;
+export default GroupProjectList;
