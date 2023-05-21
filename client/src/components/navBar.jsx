@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { EmailIcon } from "@chakra-ui/icons";
 import { BsFillHouseFill, BsPersonFill, BsChatSquare } from "react-icons/bs";
+import {logout} from "./services/authService";
 
 const LinkItem = ({href, path, target, children, ...props}) => (
     <Link
@@ -28,6 +29,13 @@ const LinkItem = ({href, path, target, children, ...props}) => (
 
 const NavBar = (props) => {
     const { path } = props;
+
+    const handleLogout = () => {
+        logout();
+        props.setIsLogin(!props.isLogin);
+        props.setToken(undefined);
+        props.setUser({});
+    }
 
     return (
         <Box
@@ -87,12 +95,12 @@ const NavBar = (props) => {
                     <Box />
                     <Box ml={10}>
                         <Text color="white" fontWeight="bold" fontSize={14} whiteSpace="inherit" align="left">
-                            민헌준
+                            {props.user.username}
                         </Text>
                         <Button variant="solid" colorScheme='gray' size='xs' mr={1}>
                             대표 권한 설정
                         </Button>
-                        <Button variant="solid" colorScheme="gray" size='xs' mr={1}>
+                        <Button onClick={handleLogout} variant="solid" colorScheme="gray" size='xs' mr={1}>
                             로그아웃
                         </Button>
                     </Box>

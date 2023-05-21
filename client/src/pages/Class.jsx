@@ -4,15 +4,15 @@ import {
     Flex,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import NavBar from "../components/NavBar";
-import Footer from "../components/Footer";
-import ClassAccordionTab from "../components/ClassAccordionTab";
-import ClassLearningContent from "../components/ClassLearningContent";
-import ClassTitleBox from "../components/ClassTitleBox";
-import ClassActivityContent from "../components/ClassActivityContent";
+import NavBar from "../components/navBar";
+import Footer from "../components/footer";
+import ClassAccordionTab from "../components/classAccordionTab";
+import ClassLearningContent from "../components/classLearningContent";
+import ClassTitleBox from "../components/classTitleBox";
+import ClassActivityContent from "../components/classActivityContent";
 
 
-const Class = () => {
+const Class = (props) => {
 
     const [index, setIndex ] = useState(0);
     const [tab, setTab ] = useState(0);
@@ -22,7 +22,7 @@ const Class = () => {
     }
 
     return (<>
-        <NavBar /> {/* 네비게이션 컴포넌트 */}
+        <NavBar  user={props.user} isLogin={props.isLogin} setToken={props.setToken} setUser={props.setUser} setIsLogin={props.setIsLogin}/> {/* 네비게이션 컴포넌트 */}
         <ClassTitleBox />  {/*메인 과목명 Container*/}
 
         <Container
@@ -31,11 +31,8 @@ const Class = () => {
         >
             <Flex>
                 <ClassAccordionTab setContets={setContents}/>
-
                 {(index == 0) ? <ClassLearningContent tab={tab} setTab={setTab}/> : <Box />}
                 {(index == 2) ? <ClassActivityContent tab={tab} setTab={setTab}/> : <Box />}
-
-
             </Flex>
             <Footer />
         </Container>
