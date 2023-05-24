@@ -3,11 +3,13 @@ import { User } from "./models/user.model.js";
 
 export const getUserFromToken = async (token) => {
   if (!token) return null;
+
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.userId);
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decodedToken.userId;
+    const user = await User.findById(userId);
     return user;
-  } catch (err) {
+  } catch (error) {
     return null;
   }
 };

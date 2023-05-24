@@ -11,6 +11,12 @@ const NoteSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Group",
   },
+  subjects: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Subject",
+    },
+  ],
 });
 
 export const Note = mongoose.model("Note", NoteSchema);
