@@ -4,7 +4,7 @@ const GroupSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    maxLength: 50,
+    maxLength: 25,
   },
   members: [
     {

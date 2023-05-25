@@ -1,6 +1,10 @@
 import { ApolloServer, gql } from "apollo-server";
 import mongoose from "mongoose";
-import { queryFiles, queryFile } from "./controller/query/query.file.js";
+import {
+  queryFile,
+  queryGroupFiles,
+  queryUserFiles,
+} from "./controller/query/query.file.js";
 import { queryNotes, queryNote } from "./controller/query/query.note.js";
 import {
   querySubjects,
@@ -29,6 +33,7 @@ import {
   mutCreateSubject,
 } from "./controller/mutation/mutation.subject.js";
 import { getUserFromToken } from "./user.permission.js";
+import { createAdmin } from "./admin.js";
 import "dotenv/config";
 
 mongoose.connect(process.env.MONGODB_URI, {
@@ -39,15 +44,14 @@ mongoose.connect(process.env.MONGODB_URI, {
 mongoose.connection.once("open", () => {
   console.log("MongoDataBase is connected");
 
-  mongoose.connection.db.collection("users").createIndex({ email: 1 });
-
   const typeDefs = gql`
     scalar Upload
 
     type Query {
       notes: [Note]
       note(_id: ID!): Note
-      files: [File]
+      groupFiles(groupId: ID!): [File]
+      userFiles: [File]
       file(_id: ID!): File
       subjects: [Subject]
       subject(_id: ID!): Subject
@@ -123,8 +127,9 @@ mongoose.connection.once("open", () => {
     Query: {
       notes: queryNotes,
       note: queryNote,
-      files: queryFiles,
       file: queryFile,
+      groupFiles: queryGroupFiles,
+      userFiles: queryUserFiles,
       subjects: querySubjects,
       subject: querySubject,
       userSubjects: queryUserSubjects,
