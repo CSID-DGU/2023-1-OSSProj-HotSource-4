@@ -11,7 +11,6 @@ import {
 } from "@chakra-ui/react";
 import { EmailIcon } from "@chakra-ui/icons";
 import { BsFillHouseFill, BsPersonFill, BsChatSquare } from "react-icons/bs";
-import {logout} from "./services/authService";
 
 const LinkItem = ({href, path, target, children, ...props}) => (
     <Link
@@ -31,7 +30,6 @@ const NavBar = (props) => {
     const { path } = props;
 
     const handleLogout = () => {
-        logout();
         props.setIsLogin(!props.isLogin);
         props.setToken(undefined);
         props.setUser({});
