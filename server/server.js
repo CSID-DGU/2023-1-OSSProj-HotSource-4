@@ -1,6 +1,10 @@
 import { ApolloServer, gql } from "apollo-server";
 import mongoose from "mongoose";
-import { queryFiles, queryFile } from "./controller/query/query.file.js";
+import {
+  queryFile,
+  queryGroupFiles,
+  queryUserFiles,
+} from "./controller/query/query.file.js";
 import { queryNotes, queryNote } from "./controller/query/query.note.js";
 import {
   querySubjects,
@@ -29,6 +33,7 @@ import {
   mutCreateSubject,
 } from "./controller/mutation/mutation.subject.js";
 import { getUserFromToken } from "./user.permission.js";
+import { createAdmin } from "./admin.js";
 import "dotenv/config";
 
 mongoose.connect(process.env.MONGODB_URI, {
@@ -36,10 +41,15 @@ mongoose.connect(process.env.MONGODB_URI, {
   useUnifiedTopology: true,
 });
 
-mongoose.connection.once("open", () => {
+mongoose.connection.once("open", async () => {
   console.log("MongoDataBase is connected");
 
-  mongoose.connection.db.collection("users").createIndex({ email: 1 });
+  try {
+    await createAdmin();
+    console.log("Admin user checked successfully");
+  } catch (error) {
+    console.error("Error checking admin user:", error);
+  }
 
   const typeDefs = gql`
     scalar Upload
@@ -47,7 +57,8 @@ mongoose.connection.once("open", () => {
     type Query {
       notes: [Note]
       note(_id: ID!): Note
-      files: [File]
+      groupFiles(groupId: ID!): [File]
+      userFiles: [File]
       file(_id: ID!): File
       subjects: [Subject]
       subject(_id: ID!): Subject
@@ -58,7 +69,7 @@ mongoose.connection.once("open", () => {
       createNote(title: String!, content: String!, groupId: ID!): Note
       updateNote(_id: ID!, title: String, content: String): Note
       deleteNote(_id: ID!): Note
-      createUser(email: String!, password: String!): User
+      createUser(username: String!, email: String!, password: String!): User
       login(id: String!, password: String!): AuthPayload
       createGroup(name: String!): Group
       addUserToGroup(userId: ID!, groupId: ID!): Group
@@ -123,8 +134,9 @@ mongoose.connection.once("open", () => {
     Query: {
       notes: queryNotes,
       note: queryNote,
-      files: queryFiles,
       file: queryFile,
+      groupFiles: queryGroupFiles,
+      userFiles: queryUserFiles,
       subjects: querySubjects,
       subject: querySubject,
       userSubjects: queryUserSubjects,

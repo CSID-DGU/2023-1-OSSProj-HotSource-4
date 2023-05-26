@@ -16,8 +16,8 @@ export const mutCreateSubject = async (
   if (!name || name.trim() === "") {
     throw new Error("Subject name is required");
   }
-  if (name.length > 100) {
-    throw new Error("Subject name should not exceed 100 characters");
+  if (name.length > 50) {
+    throw new Error("Subject name should not exceed 50 characters");
   }
   if (credit && (credit < 0 || credit > 4)) {
     throw new Error("Credit should be between 0 and 4");
