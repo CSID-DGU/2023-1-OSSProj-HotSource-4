@@ -41,8 +41,15 @@ mongoose.connect(process.env.MONGODB_URI, {
   useUnifiedTopology: true,
 });
 
-mongoose.connection.once("open", () => {
+mongoose.connection.once("open", async () => {
   console.log("MongoDataBase is connected");
+
+  try {
+    await createAdmin();
+    console.log("Admin user checked successfully");
+  } catch (error) {
+    console.error("Error checking admin user:", error);
+  }
 
   const typeDefs = gql`
     scalar Upload
@@ -62,7 +69,7 @@ mongoose.connection.once("open", () => {
       createNote(title: String!, content: String!, groupId: ID!): Note
       updateNote(_id: ID!, title: String, content: String): Note
       deleteNote(_id: ID!): Note
-      createUser(email: String!, password: String!): User
+      createUser(username: String!, email: String!, password: String!): User
       login(id: String!, password: String!): AuthPayload
       createGroup(name: String!): Group
       addUserToGroup(userId: ID!, groupId: ID!): Group
