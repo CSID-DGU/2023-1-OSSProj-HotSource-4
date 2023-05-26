@@ -9,7 +9,11 @@ const FileSchema = new mongoose.Schema(
     uploader: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      index: true,
+    },
+    group: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Group",
+      required: true,
     },
   },
   {

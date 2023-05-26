@@ -1,14 +1,19 @@
 import { requireAuth } from "../../user.permission.js";
 import { AuthenticationError } from "apollo-server";
 import { User } from "../../models/user.model.js";
+import bcrypt from "bcrypt";
 
-export const mutCreateUser = async (_, { name, email, password }, { user }) => {
+export const mutCreateUser = async (
+  _,
+  { username, email, password },
+  { user }
+) => {
   requireAuth(user);
   if (!user.isAdmin) {
     throw new AuthenticationError("Unauthorized: Only admins can create users");
   }
 
-  if (name.length < 2) {
+  if (username.length < 2) {
     throw new Error("Name should be at least 2 characters long");
   }
 
@@ -27,7 +32,7 @@ export const mutCreateUser = async (_, { name, email, password }, { user }) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
   const newUser = new User({
-    name,
+    username,
     email,
     password: hashedPassword,
   });

@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { User } from "./models/user.model.js";
+import "dotenv/config";
 
 export const getUserFromToken = async (token) => {
   if (!token) return null;
