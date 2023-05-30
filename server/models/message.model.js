@@ -17,5 +17,5 @@ const MessageSchema = new mongoose.Schema({
 { 
   timestamps: true,  //시간 자동 추가
 });
- 
+  
 export const Message = mongoose.model('Message', MessageSchema);
