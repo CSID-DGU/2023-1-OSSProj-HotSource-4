@@ -7,6 +7,7 @@ const MessageSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
+    required: true, // 필수 필드로 설정
   },
   group: {
     type: mongoose.Schema.Types.ObjectId,
