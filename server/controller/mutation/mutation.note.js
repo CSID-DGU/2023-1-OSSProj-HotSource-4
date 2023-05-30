@@ -14,9 +14,6 @@ export const mutCreateNote = async (
     throw new Error("Title is required");
   }
 
-  if (!content || content.trim() === "") {
-    throw new Error("Content is required");
-  }
   if (!group || !group.members.includes(user._id)) {
     throw new AuthenticationError("Unauthorized");
   }
@@ -39,9 +36,6 @@ export const mutUpdateNote = async (_, { _id, title, content }, { user }) => {
     throw new Error("Title is required");
   }
 
-  if (!content || content.trim() === "") {
-    throw new Error("Content is required");
-  }
   return Note.findByIdAndUpdate(_id, { title, content }, { new: true });
 };
 

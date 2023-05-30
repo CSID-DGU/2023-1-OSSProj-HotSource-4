@@ -1,4 +1,5 @@
-import { File } from "../../models/file.model.js";
+import { Subject } from "../../models/subject.model.js";
+import { requireAuth } from "../../user.permission.js";
 
 export const querySubjects = async () => {
   return Subject.find().populate("users");

@@ -1,6 +1,10 @@
 import { ApolloServer, gql } from "apollo-server";
 import mongoose from "mongoose";
-import { queryFiles, queryFile } from "./controller/query/query.file.js";
+import {
+  queryFile,
+  queryGroupFiles,
+  queryUserFiles,
+} from "./controller/query/query.file.js";
 import { queryNotes, queryNote } from "./controller/query/query.note.js";
 import {
   querySubjects,
@@ -28,7 +32,11 @@ import {
   mutAddUserToSubject,
   mutCreateSubject,
 } from "./controller/mutation/mutation.subject.js";
+import { queryUser, queryUsers } from "./controller/query/query.user.js";
+import { queryGroup, queryGroups } from "./controller/query/query.group.js";
 import { getUserFromToken } from "./user.permission.js";
+import { createAdmin } from "./admin.js";
+import { initData } from "./info.js";
 import "dotenv/config";
 
 mongoose.connect(process.env.MONGODB_URI, {
@@ -36,38 +44,62 @@ mongoose.connect(process.env.MONGODB_URI, {
   useUnifiedTopology: true,
 });
 
-mongoose.connection.once("open", () => {
+mongoose.connection.once("open", async () => {
   console.log("MongoDataBase is connected");
 
-  mongoose.connection.db.collection("users").createIndex({ email: 1 });
+  try {
+    await createAdmin();
+    // await initData();
+    console.log("Admin user checked successfully");
+  } catch (error) {
+    console.error("Error checking admin user:", error);
+  }
 
   const typeDefs = gql`
     scalar Upload
+    scalar DateTime
 
     type Query {
-      notes: [Note]
+      notes(groupId: ID!): [Note]
       note(_id: ID!): Note
-      files: [File]
+      groupFiles(groupId: ID!): [File]
+      userFiles(userId: ID!): [File]
       file(_id: ID!): File
       subjects: [Subject]
       subject(_id: ID!): Subject
-      userSubjects: [Subject]
+      userSubjects(userId: ID!): [Subject]
+      groups: [Group]
+      group(_id: ID!): Group
+      users: [User]
+      user(_id: ID!): User
     }
 
     type Mutation {
-      createNote(title: String!, content: String!, groupId: ID!): Note
+      createNote(
+        title: String!
+        content: String!
+        groupId: ID!
+        owner: ID!
+      ): Note
       updateNote(_id: ID!, title: String, content: String): Note
       deleteNote(_id: ID!): Note
-      createUser(email: String!, password: String!): User
+      createUser(username: String!, email: String!, password: String!): User
       login(id: String!, password: String!): AuthPayload
-      createGroup(name: String!): Group
+      createGroup(
+        name: String!
+        assignmentPeriod: AssignmentPeriodInput!
+        gradeReleaseDate: DateTime!
+        extensionAllowed: Boolean!
+      ): Group
       addUserToGroup(userId: ID!, groupId: ID!): Group
-      createFile(file: Upload!): File
+      removeUserFromGroup(userId: ID!, groupId: ID!): Group
+      createFile(file: Upload!, uploaderId: ID!): File
       deleteFile(_id: ID!): File
       addFileToGroup(groupId: ID!, fileId: ID!): Group
       removeFileFromGroup(groupId: ID!, fileId: ID!): Group
       createSubject(name: String!, credit: Int, classification: String): Subject
       addUserToSubject(subjectId: ID!, userId: ID!): Subject
+      removeUserFromSubject(subjectId: ID!, userId: ID!): Subject
     }
 
     type Note {
@@ -94,6 +126,20 @@ mongoose.connection.once("open", () => {
       members: [User!]!
       notes: [Note!]!
       files: [File!]!
+      assignmentPeriod: AssignmentPeriod!
+      gradeReleaseDate: DateTime!
+      extensionAllowed: Boolean!
+      submissionStatus: Boolean!
+    }
+
+    input AssignmentPeriodInput {
+      start: DateTime!
+      end: DateTime!
+    }
+
+    type AssignmentPeriod {
+      start: DateTime!
+      end: DateTime!
     }
 
     type AuthPayload {
@@ -115,6 +161,7 @@ mongoose.connection.once("open", () => {
       name: String!
       credit: Int
       classification: String
+      capacity: Int
       users: [User!]!
     }
   `;
@@ -123,11 +170,16 @@ mongoose.connection.once("open", () => {
     Query: {
       notes: queryNotes,
       note: queryNote,
-      files: queryFiles,
       file: queryFile,
+      groupFiles: queryGroupFiles,
+      userFiles: queryUserFiles,
       subjects: querySubjects,
       subject: querySubject,
       userSubjects: queryUserSubjects,
+      users: queryUsers,
+      user: queryUser,
+      groups: queryGroups,
+      group: queryGroup,
     },
 
     Mutation: {

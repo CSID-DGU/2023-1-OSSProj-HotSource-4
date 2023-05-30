@@ -1,29 +1,48 @@
 import mongoose from "mongoose";
 
-const GroupSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    maxLength: 50,
+const groupSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      maxlength: 50,
+    },
+    members: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    files: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "File",
+      },
+    ],
+    assignmentPeriod: {
+      start: {
+        type: Date,
+        required: true,
+      },
+      end: {
+        type: Date,
+        required: true,
+      },
+    },
+    gradeReleaseDate: {
+      type: Date,
+      required: true,
+    },
+    extensionAllowed: {
+      type: Boolean,
+      default: false,
+    },
+    submissionStatus: {
+      type: Boolean,
+      default: false,
+    },
   },
-  members: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
-  ],
-  notes: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Note",
-    },
-  ],
-  files: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "File",
-    },
-  ],
-});
+  { timestamps: true }
+);
 
-export const Group = mongoose.model("Group", GroupSchema);
+export const Group = mongoose.model("Group", groupSchema);
