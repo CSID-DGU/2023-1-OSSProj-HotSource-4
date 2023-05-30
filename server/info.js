@@ -94,41 +94,50 @@ const getRandomKoreanName = () => {
 const MAX_CONCURRENT_SAVES = 100;
 
 async function assignSubjectsToUsers(users, subjects) {
-  const saveQueue = [];
+  let saveQueue = []; // initialize saveQueue here
 
   for (let user of users) {
-    // Randomly choose how many subjects this user will take
     const numSubjects = Math.floor(Math.random() * (7 - 4)) + 4;
 
-    while (user.subjects.length < numSubjects) {
+    for (let i = 0; i < numSubjects; i++) {
       let subjectIndex = Math.floor(Math.random() * subjects.length);
       let subject = subjects[subjectIndex];
 
-      // Ensure student hasn't taken this subject and subject is not full
-      if (
-        !user.subjects.includes(subject._id) &&
-        subject.users.length < subject.capacity
-      ) {
-        user.subjects.push(subject._id);
-        subject.users.push(user._id);
+      let checkCount = 0; // to track how many times we've checked for a valid subject
 
-        saveQueue.push(subject.save());
-        if (saveQueue.length >= MAX_CONCURRENT_SAVES) {
-          await Promise.allSettled(saveQueue);
-          saveQueue.length = 0; // Clear the queue
+      // While the chosen subject is full, find another subject
+      while (subject.users.length >= subject.capacity) {
+        subjectIndex = Math.floor(Math.random() * subjects.length);
+        subject = subjects[subjectIndex];
+
+        checkCount++;
+
+        // If we've checked every subject and they're all full, break the loop
+        if (checkCount >= subjects.length) {
+          console.log("All subjects are full. Exiting...");
+          return; // exits the function, effectively stopping the assignment of subjects to users
         }
+      }
+
+      user.subjects.push(subject._id);
+      subject.users.push(user._id);
+
+      saveQueue.push(subject.save());
+      if (saveQueue.length >= MAX_CONCURRENT_SAVES) {
+        await Promise.allSettled(saveQueue);
+        saveQueue.length = 0;
       }
     }
 
     saveQueue.push(user.save());
     if (saveQueue.length >= MAX_CONCURRENT_SAVES) {
       await Promise.allSettled(saveQueue);
-      saveQueue.length = 0; // Clear the queue
+      saveQueue.length = 0;
     }
-  }
 
-  if (saveQueue.length > 0) {
-    await Promise.allSettled(saveQueue); // Save any remaining documents
+    if (saveQueue.length > 0) {
+      await Promise.allSettled(saveQueue);
+    }
   }
 }
 
