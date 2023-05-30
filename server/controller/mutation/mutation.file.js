@@ -2,6 +2,7 @@ import { AuthenticationError } from "apollo-server";
 import { createWriteStream } from "fs";
 import { resolve, extname, join } from "path";
 import { isValidExtension, isValidMimeType } from "../../file.constraint.js";
+import fs from "fs";
 import { requireAuth } from "../../user.permission.js";
 import { File } from "../../models/file.model.js";
 import "dotenv/config";

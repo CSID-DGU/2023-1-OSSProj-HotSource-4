@@ -2,7 +2,11 @@ import { AuthenticationError } from "apollo-server";
 import { Group } from "../../models/group.model.js";
 import { requireAuth } from "../../user.permission.js";
 
-export const mutCreateGroup = async (_, { name }, { user }) => {
+export const mutCreateGroup = async (
+  _,
+  { name, assignmentPeriod, gradeReleaseDate, extensionAllowed },
+  { user }
+) => {
   requireAuth(user);
   if (!name) {
     throw new Error("Group name is required");
@@ -14,7 +18,13 @@ export const mutCreateGroup = async (_, { name }, { user }) => {
   if (existingGroup) {
     throw new Error("Group name already exists");
   }
-  const group = new Group({ name, members: [user._id] });
+  const group = new Group({
+    name,
+    members: [user._id],
+    assignmentPeriod,
+    gradeReleaseDate,
+    extensionAllowed,
+  });
   return group.save();
 };
 
@@ -23,6 +33,9 @@ export const mutAddUserToGroup = async (_, { userId, groupId }, { user }) => {
   const group = await Group.findById(groupId);
   if (!group || !group.members.includes(user._id)) {
     throw new AuthenticationError("Unauthorized");
+  }
+  if (!user.isAdmin) {
+    throw new AuthenticationError("Only admins can add users to groups");
   }
   if (!group.members.includes(userId)) {
     group.members.push(userId);

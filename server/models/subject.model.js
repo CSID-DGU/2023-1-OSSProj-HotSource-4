@@ -8,6 +8,7 @@ const SubjectSchema = new mongoose.Schema({
   },
   credit: Number,
   classification: String,
+  capacity: Number,
   users: [
     {
       type: mongoose.Schema.Types.ObjectId,
