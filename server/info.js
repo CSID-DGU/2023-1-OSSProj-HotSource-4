@@ -94,38 +94,31 @@ const getRandomKoreanName = () => {
 const MAX_CONCURRENT_SAVES = 100;
 
 async function assignSubjectsToUsers(users, subjects) {
-  let saveQueue = []; // initialize saveQueue here
+  const saveQueue = [];
 
   for (let user of users) {
     const numSubjects = Math.floor(Math.random() * (7 - 4)) + 4;
 
-    for (let i = 0; i < numSubjects; i++) {
-      let subjectIndex = Math.floor(Math.random() * subjects.length);
-      let subject = subjects[subjectIndex];
+    let availableSubjects = [...subjects];
 
-      let checkCount = 0; // to track how many times we've checked for a valid subject
+    while (user.subjects.length < numSubjects && availableSubjects.length > 0) {
+      let subjectIndex = Math.floor(Math.random() * availableSubjects.length);
+      let subject = availableSubjects[subjectIndex];
 
-      // While the chosen subject is full, find another subject
-      while (subject.users.length >= subject.capacity) {
-        subjectIndex = Math.floor(Math.random() * subjects.length);
-        subject = subjects[subjectIndex];
+      if (subject.users.length < subject.capacity) {
+        user.subjects.push(subject._id);
+        subject.users.push(user._id);
 
-        checkCount++;
+        saveQueue.push(subject.save());
 
-        // If we've checked every subject and they're all full, break the loop
-        if (checkCount >= subjects.length) {
-          console.log("All subjects are full. Exiting...");
-          return; // exits the function, effectively stopping the assignment of subjects to users
+        if (saveQueue.length >= MAX_CONCURRENT_SAVES) {
+          await Promise.allSettled(saveQueue);
+          saveQueue.length = 0;
         }
-      }
 
-      user.subjects.push(subject._id);
-      subject.users.push(user._id);
-
-      saveQueue.push(subject.save());
-      if (saveQueue.length >= MAX_CONCURRENT_SAVES) {
-        await Promise.allSettled(saveQueue);
-        saveQueue.length = 0;
+        availableSubjects.splice(subjectIndex, 1);
+      } else {
+        availableSubjects.splice(subjectIndex, 1);
       }
     }
 
@@ -134,10 +127,10 @@ async function assignSubjectsToUsers(users, subjects) {
       await Promise.allSettled(saveQueue);
       saveQueue.length = 0;
     }
+  }
 
-    if (saveQueue.length > 0) {
-      await Promise.allSettled(saveQueue);
-    }
+  if (saveQueue.length > 0) {
+    await Promise.allSettled(saveQueue);
   }
 }
 
