@@ -34,6 +34,10 @@ import {
 } from "./controller/mutation/mutation.subject.js";
 import { queryUser, queryUsers } from "./controller/query/query.user.js";
 import { queryGroup, queryGroups } from "./controller/query/query.group.js";
+
+import { mutSendMessage } from "./controller/mutation/mutation.message.js";
+import { queryMessages } from "./controller/query/query.message.js";
+
 import { getUserFromToken } from "./user.permission.js";
 import { createAdmin } from "./admin.js";
 import { initData } from "./info.js";
@@ -49,7 +53,7 @@ mongoose.connection.once("open", async () => {
 
   try {
     await createAdmin();
-    await initData();
+    //await initData();
     console.log("Admin user checked successfully");
   } catch (error) {
     console.error("Error checking admin user:", error);
@@ -72,6 +76,7 @@ mongoose.connection.once("open", async () => {
       group(_id: ID!): Group
       users: [User]
       user(_id: ID!): User
+      messages(groupId: ID!): [Message]
     }
 
     type Mutation {
@@ -100,6 +105,7 @@ mongoose.connection.once("open", async () => {
       createSubject(name: String!, credit: Int, classification: String): Subject
       addUserToSubject(subjectId: ID!, userId: ID!): Subject
       removeUserFromSubject(subjectId: ID!, userId: ID!): Subject
+      sendMessage(content: String!, groupId: ID!): Message
     }
 
     type Note {
@@ -164,6 +170,17 @@ mongoose.connection.once("open", async () => {
       capacity: Int
       users: [User!]!
     }
+
+    type Message {
+      _id: ID!
+      content: String!
+      user: User!
+      group: Group!
+      isCurrentUser: Boolean
+      createdAt: DateTime
+      groupName: String!
+    }
+
   `;
 
   const resolvers = {
@@ -180,6 +197,7 @@ mongoose.connection.once("open", async () => {
       user: queryUser,
       groups: queryGroups,
       group: queryGroup,
+      messages: queryMessages,
     },
 
     Mutation: {
@@ -196,7 +214,10 @@ mongoose.connection.once("open", async () => {
       removeFileFromGroup: mutRemoveFileToGroup,
       createSubject: mutCreateSubject,
       addUserToSubject: mutAddUserToSubject,
+      sendMessage: mutSendMessage,
     },
+
+
   };
 
   const server = new ApolloServer({
