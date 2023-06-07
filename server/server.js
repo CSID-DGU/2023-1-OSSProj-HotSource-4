@@ -5,6 +5,7 @@ import {
   querySubjects,
   querySubject,
   queryUserSubjects,
+  querySubjectGroups,
 } from "./controller/query/query.subject.js";
 import {
   mutCreateNote,
@@ -22,15 +23,9 @@ import {
   mutCreateSubject,
 } from "./controller/mutation/mutation.subject.js";
 import { queryUser, queryUsers } from "./controller/query/query.user.js";
-import {
-  queryGroup,
-  queryGroups,
-  queryGroupsInSubject,
-} from "./controller/query/query.group.js";
-
+import { queryGroup, queryGroups } from "./controller/query/query.group.js";
 import { mutSendMessage } from "./controller/mutation/mutation.message.js";
 import { queryMessages } from "./controller/query/query.message.js";
-
 import { getUserFromToken } from "./user.permission.js";
 import { createAdmin } from "./admin.js";
 import { initData } from "./info.js";
@@ -61,6 +56,7 @@ mongoose.connection.once("open", async () => {
       subjects: [Subject]
       subject(_id: ID!): Subject
       userSubjects(userId: ID!): [Subject]
+      subjectGroups(subjectId: ID!): [Group]
       groups: [Group]
       group(_id: ID!): Group
       users: [User]
@@ -78,18 +74,17 @@ mongoose.connection.once("open", async () => {
       updateNote(_id: ID!, title: String, content: String): Note
       deleteNote(_id: ID!): Note
       createUser(username: String!, email: String!, password: String!): User
-      login(id: String!, password: String!): AuthPayload
+      login(username: String!, password: String!): AuthPayload
       createGroup(
         name: String!
         assignmentPeriod: AssignmentPeriodInput!
         gradeReleaseDate: DateTime!
         extensionAllowed: Boolean!
+        subjectId: ID!
       ): Group
       addUserToGroup(userId: ID!, groupId: ID!): Group
-      removeUserFromGroup(userId: ID!, groupId: ID!): Group
       createSubject(name: String!, credit: Int, classification: String): Subject
       addUserToSubject(subjectId: ID!, userId: ID!): Subject
-      removeUserFromSubject(subjectId: ID!, userId: ID!): Subject
       sendMessage(content: String!, groupId: ID!): Message
     }
 
@@ -118,7 +113,6 @@ mongoose.connection.once("open", async () => {
       name: String!
       members: [User!]!
       notes: [Note!]!
-      subject: Subject!
       assignmentPeriod: AssignmentPeriod!
       gradeReleaseDate: DateTime!
       extensionAllowed: Boolean!
@@ -147,6 +141,7 @@ mongoose.connection.once("open", async () => {
       classification: String
       capacity: Int
       users: [User!]!
+      groups: [Group!]!
     }
 
     type Message {
@@ -167,6 +162,7 @@ mongoose.connection.once("open", async () => {
       subjects: querySubjects,
       subject: querySubject,
       userSubjects: queryUserSubjects,
+      subjectGroups: querySubjectGroups,
       users: queryUsers,
       user: queryUser,
       groups: queryGroups,
@@ -182,8 +178,6 @@ mongoose.connection.once("open", async () => {
       login: mutLogin,
       createGroup: mutCreateGroup,
       addUserToGroup: mutAddUserToGroup,
-      addFileToGroup: mutAddFileToGroup,
-      removeFileFromGroup: mutRemoveFileToGroup,
       createSubject: mutCreateSubject,
       addUserToSubject: mutAddUserToSubject,
       sendMessage: mutSendMessage,
