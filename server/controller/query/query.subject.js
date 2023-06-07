@@ -13,3 +13,8 @@ export const queryUserSubjects = async (_, __, { user }) => {
   requireAuth(user);
   return Subject.find({ users: user._id });
 };
+
+export const querySubjectGroups = async (_, { _id }, { user }) => {
+  requireAuth(user);
+  return Subject.findById(_id).populate("groups");
+};

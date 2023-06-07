@@ -16,6 +16,12 @@ const SubjectSchema = new mongoose.Schema({
       index: true,
     },
   ],
+  groups: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Group",
+    },
+  ],
 });
 
 export const Subject = mongoose.model("Subject", SubjectSchema);
