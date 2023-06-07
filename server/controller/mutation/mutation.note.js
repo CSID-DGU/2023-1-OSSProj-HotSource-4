@@ -5,7 +5,7 @@ import { Note } from "../../models/note.model.js";
 
 export const mutCreateNote = async (
   _,
-  { title, content, groupId },
+  { title, content, color, groupId },
   { user }
 ) => {
   requireAuth(user);
@@ -20,13 +20,18 @@ export const mutCreateNote = async (
   const note = new Note({
     title,
     content,
+    color,
     owner: user._id,
     group: groupId,
   });
   return note.save();
 };
 
-export const mutUpdateNote = async (_, { _id, title, content }, { user }) => {
+export const mutUpdateNote = async (
+  _,
+  { _id, title, content, color },
+  { user }
+) => {
   requireAuth(user);
   const note = await Note.findById(_id);
   if (!note || note.owner.toString() !== user._id.toString()) {
@@ -36,7 +41,7 @@ export const mutUpdateNote = async (_, { _id, title, content }, { user }) => {
     throw new Error("Title is required");
   }
 
-  return Note.findByIdAndUpdate(_id, { title, content }, { new: true });
+  return Note.findByIdAndUpdate(_id, { title, content, color }, { new: true });
 };
 
 export const mutDeleteNote = async (_, { _id }, { user }) => {

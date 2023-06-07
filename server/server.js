@@ -1,10 +1,5 @@
 import { ApolloServer, gql } from "apollo-server";
 import mongoose from "mongoose";
-import {
-  queryFile,
-  queryGroupFiles,
-  queryUserFiles,
-} from "./controller/query/query.file.js";
 import { queryNotes, queryNote } from "./controller/query/query.note.js";
 import {
   querySubjects,
@@ -20,20 +15,18 @@ import { mutCreateUser } from "./controller/mutation/mutation.user.js";
 import {
   mutCreateGroup,
   mutAddUserToGroup,
-  mutAddFileToGroup,
-  mutRemoveFileToGroup,
 } from "./controller/mutation/mutation.group.js";
 import { mutLogin } from "./controller/mutation/mutation.login.js";
-import {
-  mutCreateFile,
-  mutDeleteFile,
-} from "./controller/mutation/mutation.file.js";
 import {
   mutAddUserToSubject,
   mutCreateSubject,
 } from "./controller/mutation/mutation.subject.js";
 import { queryUser, queryUsers } from "./controller/query/query.user.js";
-import { queryGroup, queryGroups } from "./controller/query/query.group.js";
+import {
+  queryGroup,
+  queryGroups,
+  queryGroupsInSubject,
+} from "./controller/query/query.group.js";
 
 import { mutSendMessage } from "./controller/mutation/mutation.message.js";
 import { queryMessages } from "./controller/query/query.message.js";
@@ -53,22 +46,18 @@ mongoose.connection.once("open", async () => {
 
   try {
     await createAdmin();
-    //await initData();
+    //// await initData();
     console.log("Admin user checked successfully");
   } catch (error) {
     console.error("Error checking admin user:", error);
   }
 
   const typeDefs = gql`
-    scalar Upload
     scalar DateTime
 
     type Query {
       notes(groupId: ID!): [Note]
       note(_id: ID!): Note
-      groupFiles(groupId: ID!): [File]
-      userFiles(userId: ID!): [File]
-      file(_id: ID!): File
       subjects: [Subject]
       subject(_id: ID!): Subject
       userSubjects(userId: ID!): [Subject]
@@ -98,10 +87,6 @@ mongoose.connection.once("open", async () => {
       ): Group
       addUserToGroup(userId: ID!, groupId: ID!): Group
       removeUserFromGroup(userId: ID!, groupId: ID!): Group
-      createFile(file: Upload!, uploaderId: ID!): File
-      deleteFile(_id: ID!): File
-      addFileToGroup(groupId: ID!, fileId: ID!): Group
-      removeFileFromGroup(groupId: ID!, fileId: ID!): Group
       createSubject(name: String!, credit: Int, classification: String): Subject
       addUserToSubject(subjectId: ID!, userId: ID!): Subject
       removeUserFromSubject(subjectId: ID!, userId: ID!): Subject
@@ -112,6 +97,7 @@ mongoose.connection.once("open", async () => {
       _id: ID!
       title: String!
       content: String!
+      color: String!
       owner: User!
       group: Group!
     }
@@ -120,6 +106,7 @@ mongoose.connection.once("open", async () => {
       _id: ID!
       username: String!
       email: String!
+      password: String!
       groups: [Group!]!
       subjects: [Subject!]!
       isAdmin: Boolean!
@@ -131,7 +118,7 @@ mongoose.connection.once("open", async () => {
       name: String!
       members: [User!]!
       notes: [Note!]!
-      files: [File!]!
+      subject: Subject!
       assignmentPeriod: AssignmentPeriod!
       gradeReleaseDate: DateTime!
       extensionAllowed: Boolean!
@@ -153,15 +140,6 @@ mongoose.connection.once("open", async () => {
       user: User!
     }
 
-    type File {
-      _id: ID!
-      file_name: String!
-      mimetype: String!
-      file_path: String
-      file_size: Int
-      uploader: User!
-    }
-
     type Subject {
       _id: ID!
       name: String!
@@ -180,16 +158,12 @@ mongoose.connection.once("open", async () => {
       createdAt: DateTime
       groupName: String!
     }
-
   `;
 
   const resolvers = {
     Query: {
       notes: queryNotes,
       note: queryNote,
-      file: queryFile,
-      groupFiles: queryGroupFiles,
-      userFiles: queryUserFiles,
       subjects: querySubjects,
       subject: querySubject,
       userSubjects: queryUserSubjects,
@@ -208,16 +182,12 @@ mongoose.connection.once("open", async () => {
       login: mutLogin,
       createGroup: mutCreateGroup,
       addUserToGroup: mutAddUserToGroup,
-      createFile: mutCreateFile,
-      deleteFile: mutDeleteFile,
       addFileToGroup: mutAddFileToGroup,
       removeFileFromGroup: mutRemoveFileToGroup,
       createSubject: mutCreateSubject,
       addUserToSubject: mutAddUserToSubject,
       sendMessage: mutSendMessage,
     },
-
-
   };
 
   const server = new ApolloServer({
@@ -238,7 +208,7 @@ mongoose.connection.once("open", async () => {
     console.log(`Server running at ${url}`);
   });
 });
- 
+
 mongoose.connection.on("error", (err) => {
   console.error(`MongoDB connection error: ${err}`);
 });

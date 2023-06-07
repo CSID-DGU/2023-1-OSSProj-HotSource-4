@@ -13,10 +13,10 @@ const groupSchema = new mongoose.Schema(
         ref: "User",
       },
     ],
-    files: [
+    notes: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "File",
+        ref: "Note",
       },
     ],
     assignmentPeriod: {

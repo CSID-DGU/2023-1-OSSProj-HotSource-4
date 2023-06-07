@@ -1,10 +1,11 @@
 import bcrypt from "bcrypt";
 import { User } from "./models/user.model.js";
+import "dotenv/config";
 
 export const createAdmin = async () => {
-  const adminName = "관리자";
-  const adminEmail = "admin@dgu.co.kr";
-  const adminPassword = "hotsource";
+  const adminName = "교수님";
+  const adminEmail = process.env.ADMIN_ACCOUNT;
+  const adminPassword = process.env.ADMIN_PASSWORD;
 
   const existingAdmin = await User.findOne({
     email: adminEmail,

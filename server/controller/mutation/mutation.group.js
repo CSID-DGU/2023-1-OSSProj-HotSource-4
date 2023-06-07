@@ -1,10 +1,11 @@
 import { AuthenticationError } from "apollo-server";
 import { Group } from "../../models/group.model.js";
+import { Subject } from "../../models/subject.model.js";
 import { requireAuth } from "../../user.permission.js";
 
 export const mutCreateGroup = async (
   _,
-  { name, assignmentPeriod, gradeReleaseDate, extensionAllowed },
+  { name, assignmentPeriod, gradeReleaseDate, extensionAllowed, subjectId },
   { user }
 ) => {
   requireAuth(user);
@@ -25,7 +26,15 @@ export const mutCreateGroup = async (
     gradeReleaseDate,
     extensionAllowed,
   });
-  return group.save();
+
+  const savedGroup = await group.save();
+  const subject = await Subject.findById(subjectId);
+  if (subject) {
+    subject.groups.push(savedGroup._id);
+    await subject.save();
+  }
+
+  return savedGroup;
 };
 
 export const mutAddUserToGroup = async (_, { userId, groupId }, { user }) => {
@@ -42,40 +51,5 @@ export const mutAddUserToGroup = async (_, { userId, groupId }, { user }) => {
     await group.save();
   }
   await Group.populate(group, "members");
-  return group;
-};
-
-export const mutAddFileToGroup = async (_, { groupId, fileId }, { user }) => {
-  requireAuth(user);
-  const group = await Group.findById(groupId);
-  if (!group || !group.members.includes(user._id)) {
-    throw new AuthenticationError("Unauthorized");
-  }
-  if (group.files.includes(fileId)) {
-    throw new Error("File already exists in the group");
-  }
-  group.files.push(fileId);
-  await group.save();
-  await Group.populate(group, ["members", "files"]);
-  return group;
-};
-
-export const mutRemoveFileToGroup = async (
-  _,
-  { groupId, fileId },
-  { user }
-) => {
-  requireAuth(user);
-  const group = await Group.findById(groupId);
-  if (!group || !group.members.includes(user._id)) {
-    throw new AuthenticationError("Unauthorized");
-  }
-  const fileIndex = group.files.indexOf(fileId);
-  if (fileIndex === -1) {
-    throw new Error("File not found in the group");
-  }
-  group.files.splice(fileIndex, 1);
-  await group.save();
-  await Group.populate(group, ["members", "files"]);
   return group;
 };
