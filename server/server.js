@@ -42,7 +42,7 @@ mongoose.connection.once("open", async () => {
 
   try {
     await createAdmin();
-    //// await initData();
+    // await initData();
     console.log("Admin user checked successfully");
   } catch (error) {
     console.error("Error checking admin user:", error);
@@ -75,7 +75,7 @@ mongoose.connection.once("open", async () => {
       updateNote(_id: ID!, title: String, content: String): Note
       deleteNote(_id: ID!): Note
       createUser(username: String!, email: String!, password: String!): User
-      login(username: String!, password: String!): AuthPayload
+      login(id: String!, password: String!): AuthPayload
       createGroup(
         name: String!
         assignmentPeriod: AssignmentPeriodInput!
