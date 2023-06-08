@@ -1,5 +1,6 @@
 import { Group } from "../../models/group.model.js";
 import { Note } from "../../models/note.model.js";
+import { AuthenticationError } from "apollo-server";
 import { requireAuth } from "../../user.permission.js";
 
 export const queryNotes = async (_, { groupId }, { user }) => {
