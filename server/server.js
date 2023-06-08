@@ -52,17 +52,16 @@ mongoose.connection.once("open", async () => {
     scalar DateTime
 
     type Query {
-      notes(groupId: ID!): [Note]
-      note(_id: ID!): Note
-      subjects: [Subject]
-      subject(_id: ID!): Subject
-      userSubjects(_id: ID!): [Subject]
-      subjectGroups(_id: ID!): [Group]
       groups: [Group]
-      group(_id: ID!): Group
+      group(groupId: ID!): Group
+      notes(groupId: ID!): [Note]
+      note(groupId: ID!, noteId: ID!): Note
+      subjects: [Subject]
+      subject(subjectId: ID!): Subject
+      userSubjects(userId: ID!): [Subject]
+      subjectGroups(subjectId: ID!): [Group]
       users: [User]
-      user(_id: ID!): User
-      messages(groupId: ID!): [Message]
+      user(userId: ID!): User
     }
 
     type Mutation {
