@@ -5,8 +5,8 @@ export const querySubjects = async () => {
   return Subject.find().populate("users");
 };
 
-export const querySubject = async (_, { _id }) => {
-  return Subject.findById(_id).populate("users");
+export const querySubject = async (_, { subjectId }) => {
+  return Subject.findById(subjectId).populate("users");
 };
 
 export const queryUserSubjects = async (_, __, { user }) => {
@@ -14,7 +14,7 @@ export const queryUserSubjects = async (_, __, { user }) => {
   return Subject.find({ users: user._id });
 };
 
-export const querySubjectGroups = async (_, { _id }, { user }) => {
+export const querySubjectGroups = async (_, { subjectId }, { user }) => {
   requireAuth(user);
-  return Subject.findById(_id).populate("groups");
+  return Subject.findById(subjectId).populate("groups");
 };

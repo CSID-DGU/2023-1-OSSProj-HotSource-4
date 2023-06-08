@@ -16,7 +16,7 @@ import { mutCreateUser } from "./controller/mutation/mutation.user.js";
 import {
   mutCreateGroup,
   mutAddUserToGroup,
-  mutUpdateGroup, // <--- Add this
+  mutUpdateGroup,
 } from "./controller/mutation/mutation.group.js";
 import { mutLogin } from "./controller/mutation/mutation.login.js";
 import {
@@ -56,8 +56,8 @@ mongoose.connection.once("open", async () => {
       note(_id: ID!): Note
       subjects: [Subject]
       subject(_id: ID!): Subject
-      userSubjects(userId: ID!): [Subject]
-      subjectGroups(subjectId: ID!): [Group]
+      userSubjects(_id: ID!): [Subject]
+      subjectGroups(_id: ID!): [Group]
       groups: [Group]
       group(_id: ID!): Group
       users: [User]
