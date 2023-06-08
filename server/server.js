@@ -69,10 +69,10 @@ mongoose.connection.once("open", async () => {
       createNote(
         title: String!
         content: String!
+        color: String!
         groupId: ID!
-        owner: ID!
       ): Note
-      updateNote(_id: ID!, title: String, content: String): Note
+      updateNote(_id: ID!, title: String, content: String, color: String): Note
       deleteNote(_id: ID!): Note
       createUser(username: String!, email: String!, password: String!): User
       login(id: String!, password: String!): AuthPayload
@@ -84,7 +84,7 @@ mongoose.connection.once("open", async () => {
         subjectId: ID!
       ): Group
       updateGroup(
-        _id: ID!
+        groupId: ID!
         assignmentPeriod: AssignmentPeriodInput
         gradeReleaseDate: DateTime
         extensionAllowed: Boolean
