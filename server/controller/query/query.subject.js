@@ -16,5 +16,6 @@ export const queryUserSubjects = async (_, __, { user }) => {
 
 export const querySubjectGroups = async (_, { subjectId }, { user }) => {
   requireAuth(user);
-  return Subject.findById(subjectId).populate("groups");
+  const subject = await Subject.findById(subjectId).populate("groups");
+  return subject.groups;
 };
