@@ -16,7 +16,7 @@ import { mutCreateUser } from "./controller/mutation/mutation.user.js";
 import {
   mutCreateGroup,
   mutAddUserToGroup,
-  mutUpdateGroup, // <--- Add this
+  mutUpdateGroup,
 } from "./controller/mutation/mutation.group.js";
 import { mutLogin } from "./controller/mutation/mutation.login.js";
 import {
@@ -42,7 +42,6 @@ mongoose.connection.once("open", async () => {
 
   try {
     await createAdmin();
-    //// await initData();
     //await initData();
     console.log("Admin user checked successfully");
   } catch (error) {
