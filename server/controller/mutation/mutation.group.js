@@ -37,6 +37,35 @@ export const mutCreateGroup = async (
   return savedGroup;
 };
 
+export const mutUpdateGroup = async (
+  _,
+  { groupId, assignmentPeriod, gradeReleaseDate, extensionAllowed },
+  { user }
+) => {
+  requireAuth(user);
+  const group = await Group.findById(groupId);
+
+  if (!group || !group.members.includes(user._id)) {
+    throw new AuthenticationError("Unauthorized");
+  }
+  if (!user.isAdmin) {
+    throw new AuthenticationError("Only admins can update groups");
+  }
+
+  if (assignmentPeriod !== undefined) {
+    group.assignmentPeriod = assignmentPeriod;
+  }
+  if (gradeReleaseDate !== undefined) {
+    group.gradeReleaseDate = gradeReleaseDate;
+  }
+  if (extensionAllowed !== undefined) {
+    group.extensionAllowed = extensionAllowed;
+  }
+
+  const updatedGroup = await group.save();
+  return updatedGroup;
+};
+
 export const mutAddUserToGroup = async (_, { userId, groupId }, { user }) => {
   requireAuth(user);
   const group = await Group.findById(groupId);

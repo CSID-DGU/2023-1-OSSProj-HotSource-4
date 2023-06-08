@@ -1,6 +1,6 @@
 import { ApolloServer, gql } from "apollo-server";
 import mongoose from "mongoose";
-import { queryNotes, queryNote } from "./controller/query/query.note.js";
+import { queryNote, queryNotes } from "./controller/query/query.note.js";
 import {
   querySubjects,
   querySubject,
@@ -16,6 +16,7 @@ import { mutCreateUser } from "./controller/mutation/mutation.user.js";
 import {
   mutCreateGroup,
   mutAddUserToGroup,
+  mutUpdateGroup, // <--- Add this
 } from "./controller/mutation/mutation.group.js";
 import { mutLogin } from "./controller/mutation/mutation.login.js";
 import {
@@ -81,6 +82,12 @@ mongoose.connection.once("open", async () => {
         gradeReleaseDate: DateTime!
         extensionAllowed: Boolean!
         subjectId: ID!
+      ): Group
+      updateGroup(
+        _id: ID!
+        assignmentPeriod: AssignmentPeriodInput
+        gradeReleaseDate: DateTime
+        extensionAllowed: Boolean
       ): Group
       addUserToGroup(userId: ID!, groupId: ID!): Group
       createSubject(name: String!, credit: Int, classification: String): Subject
@@ -177,6 +184,7 @@ mongoose.connection.once("open", async () => {
       createUser: mutCreateUser,
       login: mutLogin,
       createGroup: mutCreateGroup,
+      updateGroup: mutUpdateGroup,
       addUserToGroup: mutAddUserToGroup,
       createSubject: mutCreateSubject,
       addUserToSubject: mutAddUserToSubject,
