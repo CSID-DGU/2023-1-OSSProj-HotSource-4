@@ -7,6 +7,7 @@ export const mutLogin = async (_, { id, password }) => {
   const users = await User.find();
   const foundUser = users.find((user) => {
     const [userId] = user.email.split("@");
+    console.log(user)
     return userId === id;
   });
 

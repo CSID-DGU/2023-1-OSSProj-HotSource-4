@@ -1,12 +1,13 @@
 import {Box, Button, Container, Heading, HStack, Tab, TabList, TabPanel, TabPanels, Tabs} from "@chakra-ui/react";
 import GridItem from "./groupProjectList";
+import GroupProjectList from "./groupProjectList";
 
 const ClassActivityContent = (props) => {
     const handleTabClick = (n) => {
         props.setTab(n);
     }
 
-    return (
+     return (
         <Box
             flex={1}
             h="850px"
@@ -47,7 +48,7 @@ const ClassActivityContent = (props) => {
                         </TabPanel>
                         <TabPanel>
                             <Container alignItems="center" maxW="100%">
-                                <GridItem />
+                                <GroupProjectList title={props.title} user={props.user} />
                             </Container>
                         </TabPanel>
                     </TabPanels>

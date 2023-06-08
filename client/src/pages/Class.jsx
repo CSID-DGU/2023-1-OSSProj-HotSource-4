@@ -1,29 +1,57 @@
 import {
     Box,
     Container,
-    Flex,
+    Flex, Spinner
 } from "@chakra-ui/react";
-import { useState } from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import NavBar from "../components/navBar";
 import Footer from "../components/footer";
 import ClassAccordionTab from "../components/classAccordionTab";
 import ClassLearningContent from "../components/classLearningContent";
 import ClassTitleBox from "../components/classTitleBox";
 import ClassActivityContent from "../components/classActivityContent";
+import {gql, useQuery} from "@apollo/client";
+import {AuthContext} from "../context/authContext";
+
+const QUERY_USER = gql`
+    query User($id: ID!) {
+      user(_id: $id) {
+        email
+        isAdmin
+        _id
+        subjects {
+          _id
+        }
+        username
+      }
+    }
+`
 
 
 const Class = (props) => {
 
+    const [title, setTitle] = useState("");
     const [index, setIndex ] = useState(0);
     const [tab, setTab ] = useState(0);
+
+    const context = useContext(AuthContext);
+    const values = { id : context.user.userId };
+    const { data, loading, error } = useQuery(QUERY_USER, {
+        variables: values,
+        onError(graphglError){
+            console.log(graphglError);
+        }
+    });
+
     const setContents = (n, m) => {
         setIndex(n);
         setTab(m);
     }
 
-    return (<>
-        <NavBar  user={props.user} isLogin={props.isLogin} setToken={props.setToken} setUser={props.setUser} setIsLogin={props.setIsLogin}/> {/* 네비게이션 컴포넌트 */}
-        <ClassTitleBox />  {/*메인 과목명 Container*/}
+    if(loading) return (<Spinner />)
+    if(!loading) return (<>
+        <NavBar />
+        <ClassTitleBox title={title} setTitle={setTitle}/>  {/*메인 과목명 Container*/}
 
         <Container
             maxW="80%"
@@ -31,8 +59,8 @@ const Class = (props) => {
         >
             <Flex>
                 <ClassAccordionTab setContets={setContents}/>
-                {(index == 0) ? <ClassLearningContent tab={tab} setTab={setTab}/> : <Box />}
-                {(index == 2) ? <ClassActivityContent tab={tab} setTab={setTab}/> : <Box />}
+                {(index == 0) ? <ClassLearningContent tab={tab} setTab={setTab} title={title} setTitle={setTitle} user={data.user} /> : <Box />}
+                {(index == 2) ? <ClassActivityContent tab={tab} setTab={setTab} title={title} setTitle={setTitle} user={data.user} /> : <Box />}
             </Flex>
             <Footer />
         </Container>

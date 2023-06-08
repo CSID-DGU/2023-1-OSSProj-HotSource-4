@@ -1,7 +1,7 @@
 import {createHttpLink, InMemoryCache, ApolloClient} from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 
-const END_POINT = "http://localhost:4000/"
+const END_POINT = "http://localhost:4000"
 
 const httpLink = createHttpLink({
     uri: END_POINT

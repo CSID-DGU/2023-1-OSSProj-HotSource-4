@@ -12,6 +12,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "bcrypt": "^5.1.0",
     "bootstrap-icons": "^1.10.5",
     "framer-motion": "^10.12.10",
     "graphql": "^16.6.0",

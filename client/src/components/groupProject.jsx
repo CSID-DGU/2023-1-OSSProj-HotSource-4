@@ -2,7 +2,6 @@ import {
     HStack,
     Text,
     GridItem,
-    Heading,
     VStack,
     Box,
     Button,
@@ -21,14 +20,42 @@ import {
     ModalFooter,
     useDisclosure,
     Flex,
-    Textarea, StepIcon, Input
+    Textarea, StepIcon, Input, Container
 } from "@chakra-ui/react";
 import {Icon} from "@chakra-ui/icons";
 import {BsFillSendFill} from "react-icons/bs";
+import {useEffect, useState} from "react";
+import CreateNoteButton from "./createNoteButton";
+import MemoBox from "./memoBox";
 
 
-const GroupProject = ({title, children}) => {
+const GroupProject = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
+
+    const get_date = (today) => {
+        const td = new Date(today);
+        const year = td.getFullYear();
+        const month = ('0' + (td.getMonth() + 1)).slice(-2);
+        const day = ('0' + td.getDate()).slice(-2);
+
+        const dateString = year + '-' + month  + '-' + day;
+
+
+        const hours = ('0' + td.getHours()).slice(-2);
+        const minutes = ('0' + td.getMinutes()).slice(-2);
+        const seconds = ('0' + td.getSeconds()).slice(-2);
+
+        const timeString = hours + ':' + minutes  + ':' + seconds;
+
+        return dateString + ' ' + timeString
+    }
+
+    useEffect(() => {
+        if(Date.parse(props.group.submissionStatus) - Date.now() < 0) console.log("마감")
+    }, [])
+
+
+
 
     return(
     <>
@@ -36,11 +63,10 @@ const GroupProject = ({title, children}) => {
             <VStack spacing={2}>
                 <Box w="100%" bgColor="#ECEEF1" p={3} >
                     <HStack justify="space-between">
-                        <Text fontWeight="700" >[팀 활동] 제목 </Text>
+                        <Text fontWeight="700" >{props.group.name}</Text>
                         <Box>
                             <HStack>
-                                <Button onClick={onOpen} size="xs" bgColor="blackAlpha.700" textColor="whiteAlpha.800" borderRadius={0}>팀 활동 </Button>
-                                <Button size="xs" bgColor="blackAlpha.700" textColor="whiteAlpha.800" borderRadius={0}>제출하기 </Button>
+                                { !props.group.submissionStatus ? <Button onClick={onOpen} size="xs" bgColor="blackAlpha.700" textColor="whiteAlpha.800" borderRadius={0}>팀 활동 </Button> : <Box /> }
                             </HStack>
                         </Box>
                     </HStack>
@@ -50,7 +76,7 @@ const GroupProject = ({title, children}) => {
                         <Thead>
                             <Tr>
                                 <Th bgColor="blackAlpha.700" textAlign="center">
-                                    <Text fontSize="15" textColor="white">제출기한</Text>
+                                    <Text fontSize="15" textColor="white">활동 기간</Text>
                                 </Th>
                                 <Th bgColor="blackAlpha.800" textAlign="center">
                                     <Text fontSize="15" textColor="white">성적공개일자</Text>
@@ -59,39 +85,35 @@ const GroupProject = ({title, children}) => {
                                     <Text fontSize="15" textColor="white">연장제출</Text>
                                 </Th>
                                 <Th bgColor="blackAlpha.800" textAlign="center">
-                                    <Text fontSize="15" textColor="white">제출여부</Text>
-                                </Th>
-                                <Th bgColor="blackAlpha.700" textAlign="center">
-                                    <Text fontSize="15" textColor="white">평가점수</Text>
+                                    <Text fontSize="15" textColor="white">종료여부</Text>
                                 </Th>
                             </Tr>
                         </Thead>
                         <Tbody>
                             <Tr>
                                 <Td bgColor="#ECEEF1" textAlign="center" p={1}>
-                                    <Text fontSize="12" textColor="blackAlpha.700">20xx-xx-xx 00:00 ~ 20xx-xx-xx 23:59</Text>
+                                    <Text fontSize="12" textColor="blackAlpha.700">{get_date(props.group.assignmentPeriod.start)} ~ {get_date(props.group.assignmentPeriod.end) }</Text>
                                 </Td>
                                 <Td bgColor="#ECEEF1" textAlign="center" p={1}>
-                                    <Text fontSize="12" textColor="blackAlpha.700">20xx-xx-xx 00:00</Text>
+                                    <Text fontSize="12" textColor="blackAlpha.700">{get_date(props.group.gradeReleaseDate)}</Text>
                                 </Td>
                                 <Td bgColor="#ECEEF1" textAlign="center" p={1}>
-                                    <Text fontSize="12" textColor="blackAlpha.700">허용 / 미허용</Text>
+                                    {props.group.extensionAllowed ? <Text fontSize="12" textColor="blackAlpha.700">허용</Text> : <Text fontSize="12" textColor="blackAlpha.700">비허용</Text>}
                                 </Td>
                                 <Td bgColor="#ECEEF1" textAlign="center" p={1}>
-                                    <Text fontSize="12" textColor="blackAlpha.700">제출 / 미제출</Text>
-                                </Td>
-                                <Td bgColor="#ECEEF1" textAlign="center" p={1}>
-                                    <Text fontSize="12" textColor="blackAlpha.700">xx.x</Text>
+                                    {props.group.submissionStatus ? <Text fontSize="12" textColor="blackAlpha.700">종료</Text> : <Text fontSize="12" textColor="blackAlpha.700">진행중</Text>}
                                 </Td>
                             </Tr>
                         </Tbody>
                     </Table>
                 </Box>
-                <Box w="100%" bgColor="whiteAlpha.800" pl={3}>
-                    <Text fontWeight="700" fontSize="14px">참고 자료 :  </Text>
-                </Box>
                 <Box p={2} bgColor="#ECEEF1" w="100%" borderRadius={5}>
-                    <Text fontSize="14px" fontWeight="600">{ children }</Text>
+                    <HStack>
+                    <Text fontSize="14px" fontWeight="600">참여자  </Text>
+                    {props.group.members.filter((item, index) => index != 0).map((item, index)=> (
+                        <Text fontSize="13px" >{item.username}</Text>
+                    )) }
+                    </HStack>
                 </Box>
 
             </VStack>
@@ -108,19 +130,7 @@ const GroupProject = ({title, children}) => {
                 <ModalHeader fontSize="40px" fontWeight="800">팀 활동 </ModalHeader>
                 <ModalBody>
                     <Flex dir="row">
-                        <Box flex={5} w="100%" h="500px" bgColor="blackAlpha.800">
-                            <Box w="100%" bgColor="#ECEEF1" p={3} >
-                                <HStack justify="space-between">
-                                    <Text fontWeight="700" > 모든 메모 </Text>
-                                    <Box>
-                                        <HStack>
-                                            <Button onClick={onOpen} size="xs" bgColor="blackAlpha.700" textColor="whiteAlpha.800" borderRadius={0}>크게 보기 </Button>
-                                            <Button size="xs" bgColor="blackAlpha.700" textColor="whiteAlpha.800" borderRadius={0}>작성하기 </Button>
-                                        </HStack>
-                                    </Box>
-                                </HStack>
-                            </Box>
-                        </Box>
+                        <MemoBox user={props.user} group={props.group} title={props.title}  />
                         <Box flex={3} w="100%" h="500px" bgColor="#EEEEEE">
                             <VStack >
                                 <Box  w="100%" bgColor="#ECEEF1" p={3} >
@@ -142,14 +152,6 @@ const GroupProject = ({title, children}) => {
                                 </Box>
                             </VStack>
                         </Box>
-                        <Box flex={1.5} w="100%" h="500px" bgColor="blackAlpha.800">
-                            <Box w="100%" bgColor="#ECEEF1" p={3} >
-                                <HStack justify="space-between">
-                                    <Text fontWeight="700" > 파일 </Text>
-                                    <Button onClick={onOpen} size="xs" bgColor="blackAlpha.700" textColor="whiteAlpha.800" borderRadius={0}>업로드</Button>
-                                </HStack>
-                            </Box>
-                        </Box>
                     </Flex>
                 </ModalBody>
                 <ModalFooter>
@@ -157,7 +159,7 @@ const GroupProject = ({title, children}) => {
                         닫기
                     </Button>
                     <Button colorScheme='orange' mr={3} fontWeight="800" onClick={onClose}>
-                        제출하기
+                        팀 활동 종료
                     </Button>
                 </ModalFooter>
             </ModalContent>
