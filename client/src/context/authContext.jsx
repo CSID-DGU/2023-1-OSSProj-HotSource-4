@@ -1,9 +1,13 @@
-import React, {useReducer, createContext} from "react";
+import React, {useReducer, createContext, useState, useEffect} from "react";
 import jwtDecode from "jwt-decode";
+import {useQuery, gql, useMutation} from "@apollo/client";
+
 
 const initialState = {
-    user: null
+    user: null,
+    userInfo: null
 }
+
 
 if(localStorage.getItem("token")){
     const decodedToken = jwtDecode(localStorage.getItem("token"));
@@ -12,13 +16,17 @@ if(localStorage.getItem("token")){
         localStorage.removeItem("token");
     } else {
         initialState.user = decodedToken;
+
+
     }
+
 }
+
 
 const AuthContext = createContext({
     user: null,
     login: (userData) => {},
-    logout: () => {}
+    logout: () => {},
 });
 
 function authReducer(state, action) {
@@ -39,6 +47,7 @@ function authReducer(state, action) {
 }
 
 function AuthProvider(props) {
+
     const [state, dispatch] = useReducer(authReducer, initialState);
 
     const login = (userData) => {
@@ -56,10 +65,10 @@ function AuthProvider(props) {
 
     return (
         <AuthContext.Provider
-            value={{user: state.user, login, logout}}
+            value={{ user: state.user, login, logout }}
             {...props}
         />
     )
 }
 
-export {AuthContext, AuthProvider };
+export {AuthContext, AuthProvider};

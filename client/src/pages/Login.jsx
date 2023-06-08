@@ -11,25 +11,24 @@ import {
     Text, useToast, VStack
 } from "@chakra-ui/react";
 import {useState, useRef, useContext} from "react";
-import {useQuery, useMutation, gql } from "@apollo/client";
+import {useMutation, gql } from "@apollo/client";
 import {AuthContext} from "../context/authContext";
-import {useForm} from "../utility/hooks";
+import {useForm} from "../utility/useForm";
 
 const LOGIN_USER = gql`
-    mutation login($id: String!, $password: String!) {
-        mutLogin(id: $id, password: $password) {
-            token
-            user {
-              username
-              email
-              password
-              groups
-              subjects
-              isAdmin
-              tokenExpiration
-            }
+  mutation Login($loginId: String!, $password: String!) {
+    login(id: $loginId, password: $password) {
+        token
+        user {
+          _id
+          isAdmin
+          username
+          subjects {
+            _id
+          }
         }
     }
+  }
 `
 
 const Login = (props) => {
@@ -38,22 +37,27 @@ const Login = (props) => {
     const [ errors, setErrors ] = useState([]);
 
     const loginUserCallback = async () => {
-        loginUser();
+        await login();
     }
 
-    const { onChange, onSubmit, values } = useForm(loginUserCallback, {
-        id: '',
+    const { onIdChange, onPwChange, onSubmit, values } = useForm(loginUserCallback, {
+        loginId: '',
         password: ''
     });
 
-    const [loginUser, {loading}] = useMutation(LOGIN_USER, {
-        update(proxy, {data: {loginUser: userData }}) {
+    const [login, {loading}] = useMutation(LOGIN_USER, {
+        variables:  values ,
+        update(proxy, {data: {login: userData }}) {
             context.login(userData);
+            addSuccessToast(userData.user.username);
+            setInterval( () => {
+                window.location.replace("/class/");
+            }, 1000);
         },
         onError({graphQLErrors}){
             setErrors(graphQLErrors);
-        },
-        variables: { loginInput : values}
+            addErrorToast();
+        }
     });
 
     //CSS
@@ -61,12 +65,20 @@ const Login = (props) => {
     const toastIdRef = useRef()
     const [show, setShow] = useState(false)
 
-    function addToast() {
+    function addErrorToast() {
        toastIdRef.current = toast(
            {
                description: '학번 또는 비밀번호가 일치하지 않습니다',
                status: 'error'
            })
+    }
+
+    function addSuccessToast(username) {
+        toastIdRef.current = toast(
+            {
+                description: `${username}님 반갑습니다!`,
+                status: 'success'
+            })
     }
 
     const basicBoxStyles = {
@@ -91,11 +103,11 @@ const Login = (props) => {
                 <Stack spacing={4}>
                     <InputGroup>
                         <InputLeftAddon children='학번' bgColor="#FBB738" textColor="#864600" fontWeight="800"/>
-                        <Input onChange={onChange} focusBorderColor='#FBB738' type='search' placeholder='학번' />
+                        <Input onChange={onIdChange} focusBorderColor='#FBB738' type='search' placeholder='학번' />
                     </InputGroup>
                     <InputGroup>
                         <InputLeftAddon children='비밀번호' bgColor="#FBB738" textColor="#864600" fontWeight="800"/>
-                        <Input onChange={onChange} focusBorderColor='#FBB738' type={show ? 'text' : 'password'} placeholder='비밀번호' />
+                        <Input onChange={onPwChange} focusBorderColor='#FBB738' type={show ? 'text' : 'password'} placeholder='비밀번호' />
                         <InputRightElement width='8rem'>
                             <Button h='1.75rem' size='sm' onClick={handleClick}>
                                 {show ? '비밀번호 숨기기' : '비밀번호 확인'}

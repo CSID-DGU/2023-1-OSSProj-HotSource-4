@@ -3,16 +3,30 @@ import {
     Box,
     Link,
     Stack,
-    Heading,
     Text,
     Button,
-    Divider,
-    StackDivider
+    StackDivider, useToast, Spinner
 } from "@chakra-ui/react";
 import { EmailIcon } from "@chakra-ui/icons";
 import { BsFillHouseFill, BsPersonFill, BsChatSquare } from "react-icons/bs";
+import {AuthContext} from "../context/authContext";
+import {useContext, useEffect, useRef, useState} from "react";
+import {gql, useQuery} from "@apollo/client";
 
-const LinkItem = ({href, path, target, children, ...props}) => (
+const QUERY_USER = gql`
+    query User($id: ID!) {
+      user(_id: $id) {
+        email
+        isAdmin
+        subjects {
+          _id
+        }
+        username
+      }
+    }
+`
+
+const LinkItem = ({href, target, children}) => (
     <Link
         href={href}
         scroll={false}
@@ -20,22 +34,36 @@ const LinkItem = ({href, path, target, children, ...props}) => (
         bg="#38393D"
         color="#D7D7D7"
         target={target}
-        isExternal {...props}
     >
         {children}
     </Link>
 )
 
 const NavBar = (props) => {
-    const { path } = props;
+
+    const context = useContext(AuthContext);
+    const values = { id : context.user.userId };
+    const { data, loading, error } = useQuery(QUERY_USER, {
+        variables: values,
+        onError(graphglError){
+            console.log(graphglError);
+        }
+    });
+
+    console.log(data);
+    console.log(loading)
 
     const handleLogout = () => {
-        props.setIsLogin(!props.isLogin);
-        props.setToken(undefined);
-        props.setUser({});
+        context.logout();
+        window.location.replace("/login");
     }
 
-    return (
+    const handle = () => {
+        console.log();
+    }
+
+   if(loading) return (<Spinner />)
+   if(!loading) return (
         <Box
         position = "fixed"
         as="nav"
@@ -43,7 +71,6 @@ const NavBar = (props) => {
         bg="#38393D"
         css={{backdropFilter: 'blur(10px'}}
         zIndex={2}
-        {...props}
         >
             <Container
             display="flex"
@@ -63,13 +90,13 @@ const NavBar = (props) => {
                     mt={{ base: 0, md: 0}}
                 >
                     <LinkItem m={0} p={0}/>
-                    <LinkItem href="/" path={path}>
+                    <LinkItem href="/" >
                         <BsFillHouseFill size="25" />
                         <Button variant="link" colorScheme='white' size='xs'>
                             홈으로
                         </Button>
                     </LinkItem>
-                    <LinkItem href="/my" path={path}>
+                    <LinkItem href="/my" >
                         <BsPersonFill size="25" />
                         <Button variant="link" colorScheme='white' size='xs'>
                             마이페이지
@@ -93,9 +120,9 @@ const NavBar = (props) => {
                     <Box />
                     <Box ml={10}>
                         <Text color="white" fontWeight="bold" fontSize={14} whiteSpace="inherit" align="left">
-                            {props.user.username}
+                            {`${data.user.username}(${data.user.email.split('@')[0]})`}
                         </Text>
-                        <Button variant="solid" colorScheme='gray' size='xs' mr={1}>
+                        <Button onClick={handle} variant="solid" colorScheme='gray' size='xs' mr={1}>
                             대표 권한 설정
                         </Button>
                         <Button onClick={handleLogout} variant="solid" colorScheme="gray" size='xs' mr={1}>

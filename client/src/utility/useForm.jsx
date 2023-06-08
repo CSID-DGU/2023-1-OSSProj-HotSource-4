@@ -4,18 +4,23 @@ export const useForm = (callback, initialState = {}) => {
 
     const [values, setValues] = useState(initialState);
 
-    const onChange = (e) => {
-        setValues({...values, [e.target.name]: e.target.value} )
+    const onIdChange = (e) => {
+        setValues({...values, loginId : e.target.value} )
+        console.log(values);
+    }
+
+    const onPwChange = (e) => {
+        setValues({...values, password : e.target.value })
         console.log(values);
     }
 
     const onSubmit = (e) => {
-        e.preventDefault();
         callback();
     }
 
     return {
-        onChange,
+        onIdChange,
+        onPwChange,
         onSubmit,
         values
     }

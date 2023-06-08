@@ -43,6 +43,7 @@ mongoose.connection.once("open", async () => {
   try {
     await createAdmin();
     //// await initData();
+    //await initData();
     console.log("Admin user checked successfully");
   } catch (error) {
     console.error("Error checking admin user:", error);
