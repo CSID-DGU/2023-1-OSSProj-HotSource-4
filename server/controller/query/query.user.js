@@ -1,9 +1,9 @@
 import { User } from "../../models/user.model.js";
 
 export const queryUsers = async () => {
-  return User.find().populate("groups").populate("subjects");
+  return User.find();
 };
 
 export const queryUser = async (_, { userId }) => {
-  return User.findById(userId).populate("groups").populate("subjects");
+  return User.findById(userId);
 };
