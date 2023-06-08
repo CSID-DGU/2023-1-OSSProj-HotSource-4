@@ -62,6 +62,7 @@ mongoose.connection.once("open", async () => {
       subjectGroups(subjectId: ID!): [Group]
       users: [User]
       user(userId: ID!): User
+      messages(groupId: ID!): [Message]
     }
 
     type Mutation {
