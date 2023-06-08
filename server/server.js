@@ -56,8 +56,8 @@ mongoose.connection.once("open", async () => {
       note(_id: ID!): Note
       subjects: [Subject]
       subject(_id: ID!): Subject
-      userSubjects(userId: ID!): [Subject]
-      subjectGroups(subjectId: ID!): [Group]
+      userSubjects(_id: ID!): [Subject]
+      subjectGroups(_id: ID!): [Group]
       groups: [Group]
       group(_id: ID!): Group
       users: [User]

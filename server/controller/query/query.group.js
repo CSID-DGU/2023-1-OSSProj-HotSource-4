@@ -4,6 +4,6 @@ export const queryGroups = async () => {
   return Group.find().populate("members");
 };
 
-export const queryGroup = async (_, { _id }) => {
-  return Group.findById(_id).populate("members");
+export const queryGroup = async (_, { groupId }) => {
+  return Group.findById(groupId).populate("members");
 };
