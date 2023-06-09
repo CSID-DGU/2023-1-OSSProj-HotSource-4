@@ -6,7 +6,7 @@ import { requireAuth } from "../../user.permission.js";
 export const queryNotes = async (_, { groupId }, { user }) => {
   requireAuth(user);
   const userGroups = await Group.find({ members: { $in: [user._id] } });
-  if (!userGroups.map((group) => group._id).includes(groupId)) {
+  if (!userGroups.map((group) => group._id.toString()).includes(groupId)) {
     throw new AuthenticationError("Unauthorized");
   }
   return Note.find({ group: groupId });
@@ -15,7 +15,7 @@ export const queryNotes = async (_, { groupId }, { user }) => {
 export const queryNote = async (_, { groupId, noteId }, { user }) => {
   requireAuth(user);
   const userGroups = await Group.find({ members: { $in: [user._id] } });
-  if (!userGroups.map((group) => group._id).includes(groupId)) {
+  if (!userGroups.map((group) => group._id.toString()).includes(groupId)) {
     throw new AuthenticationError("Unauthorized");
   }
   const note = await Note.findOne({ _id: noteId, group: groupId });
