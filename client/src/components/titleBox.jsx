@@ -3,8 +3,8 @@ import {EmailIcon} from "@chakra-ui/icons";
 import {gql, useQuery} from "@apollo/client";
 
 const QUERY_SUBJECT = gql`
-query Subject($id: ID!) {
-  subject(_id: $id) {
+query Subject($subjectId: ID!) {
+  subject(subjectId: $subjectId) {
     name
     classification
     credit
@@ -27,12 +27,19 @@ const TitleBox = (props) => {
 
     function get_id(title) {
         if(title) return title;
-        if(props.data.user.isAdmin) return "6471ea1d8c0d64b3c26745d4";
-        return props.data.user.subjects[0]._id;
+        else {
+            if(props.data.user.isAdmin) {
+                props.setTitle("6471ea1d8c0d64b3c26745d4");
+                return "6471ea1d8c0d64b3c26745d4"
+            }
+            else props.setTitle(props.data.user.subjects[0]._id);
+            return props.data.user.subjects[0]._id;
+        }
+
     }
 
     const _id = get_id(props.title);
-    const values = { id : _id};
+    const values = { subjectId : _id};
     const { data, loading, error } = useQuery(QUERY_SUBJECT, {
         variables: values,
         onError(graphglError){

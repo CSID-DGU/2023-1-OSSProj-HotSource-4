@@ -14,8 +14,8 @@ import {gql, useQuery} from "@apollo/client";
 import {AuthContext} from "../context/authContext";
 
 const QUERY_USER = gql`
-    query User($id: ID!) {
-      user(_id: $id) {
+    query User($userId: ID!) {
+       user(userId: $userId) {
         email
         isAdmin
         _id
@@ -35,13 +35,14 @@ const Class = (props) => {
     const [tab, setTab ] = useState(0);
 
     const context = useContext(AuthContext);
-    const values = { id : context.user.userId };
+    const values = { userId : context.user.userId };
     const { data, loading, error } = useQuery(QUERY_USER, {
         variables: values,
         onError(graphglError){
             console.log(graphglError);
         }
     });
+
 
     const setContents = (n, m) => {
         setIndex(n);

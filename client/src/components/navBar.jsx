@@ -14,10 +14,11 @@ import {useContext, useEffect, useRef, useState} from "react";
 import {gql, useQuery} from "@apollo/client";
 
 const QUERY_USER = gql`
-    query User($id: ID!) {
-      user(_id: $id) {
+    query User($userId: ID!) {
+       user(userId: $userId) {
         email
         isAdmin
+        _id
         subjects {
           _id
         }
@@ -42,7 +43,7 @@ const LinkItem = ({href, target, children}) => (
 const NavBar = (props) => {
 
     const context = useContext(AuthContext);
-    const values = { id : context.user.userId };
+    const values = { userId : context.user.userId };
     const { data, loading, error } = useQuery(QUERY_USER, {
         variables: values,
         onError(graphglError){
@@ -56,10 +57,6 @@ const NavBar = (props) => {
     const handleLogout = () => {
         context.logout();
         window.location.replace("/login");
-    }
-
-    const handle = () => {
-        console.log();
     }
 
    if(loading) return (<Spinner />)
@@ -122,7 +119,7 @@ const NavBar = (props) => {
                         <Text color="white" fontWeight="bold" fontSize={14} whiteSpace="inherit" align="left">
                             {`${data.user.username}(${data.user.email.split('@')[0]})`}
                         </Text>
-                        <Button onClick={handle} variant="solid" colorScheme='gray' size='xs' mr={1}>
+                        <Button variant="solid" colorScheme='gray' size='xs' mr={1}>
                             대표 권한 설정
                         </Button>
                         <Button onClick={handleLogout} variant="solid" colorScheme="gray" size='xs' mr={1}>

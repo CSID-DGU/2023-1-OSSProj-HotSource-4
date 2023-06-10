@@ -13,11 +13,11 @@ import {
 import {gql, useMutation, useQuery} from "@apollo/client";
 import {ChevronDownIcon} from "@chakra-ui/icons";
 import {useEffect, useRef, useState} from "react";
-import CreateGroupButton from "./CreateGroupButton";
+import CreateGroupButton from "./createGroupButton";
 
 const QUERY_SUBJECT = gql`
-query Subject($id: ID!) {
-  subject(_id: $id) {
+query Subject($subjectId: ID!) {
+  subject(subjectId: $subjectId) {
     name
     classification
     credit
@@ -47,7 +47,8 @@ const CreateGroupModal = (props) => {
                 },
                 gradeReleaseDate : "",
                 gradeReleaseDateValue : NaN,
-                extensionAllowed : false
+                extensionAllowed : false,
+                subjectId : props.title
             },
         )
         props.setSelectedUser([]);
@@ -94,7 +95,7 @@ const CreateGroupModal = (props) => {
                 endValue: Date.parse(event.target.value)
             } })
     }
-    console.log(props.group)
+    console.log(props.group.subjectId)
     console.log(props.selectedUser)
 
     const handleGradeReleaseChange = (event) => {
@@ -152,7 +153,7 @@ const CreateGroupModal = (props) => {
     }
 
     const _id = props.title;
-    const values = { id : _id};
+    const values = { subjectId : _id};
     const { data, loading, error } = useQuery(QUERY_SUBJECT, {
         variables: values,
         onError(graphglError){

@@ -13,15 +13,14 @@ import {
 import {useEffect, useRef, useState} from "react";
 import GroupProject from "./groupProject.jsx";
 import CreateGroupModal from "./createGroupModal";
-import {gql, useMutation, useQuery} from "@apollo/client";
+import {gql, useQuery} from "@apollo/client";
 
-const QUERY_GROUP = gql`
-query Groups {
-  groups {
+const SUBJECT_GROUP = gql`
+query SubjectGroups($subjectId: ID!) {
+  subjectGroups(subjectId: $subjectId) {
     submissionStatus
     name
     members {
-      username
       _id
     }
     gradeReleaseDate
@@ -34,6 +33,7 @@ query Groups {
   }
 }
 `
+
 
 const GroupProjectList = (props) => {
 
@@ -49,12 +49,20 @@ const GroupProjectList = (props) => {
         },
         gradeReleaseDate : "",
         gradeReleaseDateValue: "",
-        extensionAllowed : false
+        extensionAllowed : false,
+        subjectId : props.title
     });
 
-    const { data, loading } = useQuery(QUERY_GROUP)
+    const { data, loading } = useQuery(SUBJECT_GROUP,
+        {
+            variables : { subjectId : props.title },
+            onError(graphQLError) {
+                console.log(graphQLError);
+            }
+        })
 
     console.log(data);
+
 
     const toast = useToast()
     const toastIdRef = useRef()
@@ -74,6 +82,7 @@ const GroupProjectList = (props) => {
         }
     }
 
+
      if(loading) return <Spinner />
      if(!loading) return (
         <>
@@ -85,7 +94,7 @@ const GroupProjectList = (props) => {
             </Box>
             <Box>
                 <Grid gap="70px">
-                    {data.groups.filter(item => searchingMember(item.members) ).map((item, index)=> (
+                    {data.subjectGroups.filter(item =>  searchingMember(item.members)).map((item, index)=> (
                         <GroupProject group={item} index={index} user={props.user} title={props.title} />
                     ) ) }
                 </Grid>

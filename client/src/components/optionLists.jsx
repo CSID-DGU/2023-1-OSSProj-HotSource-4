@@ -1,6 +1,7 @@
 import {Button, Menu, MenuButton, MenuItem, MenuList, Select} from "@chakra-ui/react";
 import {gql, useQuery} from "@apollo/client";
 import {ChevronDownIcon} from "@chakra-ui/icons";
+import {useEffect} from "react";
 
 const QUERY_SUBJECT = gql`
 query Subjects {
@@ -17,7 +18,7 @@ query Subjects {
 }
 `
 
-const MenuLists_admin = (props) => {
+const OptionLists = (props) => {
 
     const { data, loading, error } = useQuery(QUERY_SUBJECT, {
         onError(graphglError){
@@ -32,6 +33,17 @@ const MenuLists_admin = (props) => {
         console.log(itemName);
 
         props.setTitle(itemName);
+    }
+
+    function checkUser(item) {
+        for(let i = 0; i < item.length; i++){
+            console.log(item[i]._id)
+            if(item[i]._id == props.data.user._id) {
+                console.log("있음")
+                return true
+            }
+        }
+
     }
 
 
@@ -51,10 +63,12 @@ const MenuLists_admin = (props) => {
                 id = "select"
                 onChange={changeSelection}
         >
-                {data.subjects.map((item, index)=>(
+                {props.data.user.isAdmin ? data.subjects.map((item, index)=>(
+                        <option id={index} value={item._id}> {item.name}  </option>  ) ) :
+                    data.subjects.filter(item => checkUser(item.users)).map((item, index)=>(
                     <option id={index} value={item._id}> {item.name}  </option>  ) )}
         </Select>
     )
 };
 
-export default MenuLists_admin;
+export default OptionLists;
