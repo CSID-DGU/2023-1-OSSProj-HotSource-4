@@ -71,9 +71,16 @@ mongoose.connection.once("open", async () => {
         content: String!
         color: String!
         groupId: ID!
+        userId: ID!
       ): Note
-      updateNote(_id: ID!, title: String, content: String, color: String): Note
-      deleteNote(_id: ID!): Note
+      updateNote(
+        _id: ID!
+        title: String
+        content: String
+        color: String
+        userId: ID!
+      ): Note
+      deleteNote(_id: ID!, userId: ID!): Note
       createUser(username: String!, email: String!, password: String!): User
       login(id: String!, password: String!): AuthPayload
       createGroup(
