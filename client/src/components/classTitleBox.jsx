@@ -16,13 +16,15 @@ import {gql, useQuery} from "@apollo/client";
 import {AuthContext} from "../context/authContext";
 import MenuLists from "./menuLists";
 import TitleBox from "./titleBox";
-import MenuLists_admin from "./menuLists_admin";
+import MenuLists_admin from "./optionLists";
+import OptionLists from "./optionLists";
 
 const QUERY_USER = gql`
-    query User($id: ID!) {
-      user(_id: $id) {
+    query User($userId: ID!) {
+       user(userId: $userId) {
         email
         isAdmin
+        _id
         subjects {
           _id
         }
@@ -37,7 +39,7 @@ const ClassTitleBox = (props) => {
 
 
     const context = useContext(AuthContext);
-    const values = { id : context.user.userId };
+    const values = { userId : context.user.userId };
     const { data, loading, error } = useQuery(QUERY_USER, {
         variables: values,
         onError(graphglError){
@@ -57,7 +59,7 @@ const ClassTitleBox = (props) => {
     if(loading) return (<Spinner />)
     if(!loading) return (
         <>
-            <TitleBox hidden={hidden} data={data} title={props.title}/>
+            <TitleBox hidden={hidden} data={data} title={props.title} setTitle={props.setTitle}/>
             <Container
                 bgGradient='linear(to-t, #A0A0A0 0%, #F0F0F0 100%)'
                 maxW="80%"
@@ -68,7 +70,7 @@ const ClassTitleBox = (props) => {
                     pt={3}
                 >
 
-                    {data.user.isAdmin ? <MenuLists_admin data={data} setTitle={props.setTitle} /> : <MenuLists data={data} setTitle={props.setTitle}/>}
+                    <OptionLists data={data} setTitle={props.setTitle} />
                     <Button onClick={handleTopBox} size="xl" w="30px">
                         {hidden ? <ChevronDownIcon /> : <ChevronUpIcon />  }
                     </Button>

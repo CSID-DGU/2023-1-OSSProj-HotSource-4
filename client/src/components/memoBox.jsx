@@ -1,7 +1,20 @@
-import {Box, Button, Container, HStack, Input, Spinner, Text, Textarea} from "@chakra-ui/react";
+import {
+    Box,
+    Button,
+    Container,
+    HStack,
+    Input, Menu,
+    MenuButton,
+    MenuItemOption,
+    MenuList, MenuOptionGroup,
+    Spinner,
+    Text,
+    Textarea
+} from "@chakra-ui/react";
 import CreateNoteButton from "./createNoteButton";
 import {useState} from "react";
 import {gql, useQuery} from "@apollo/client";
+import {AttachmentIcon} from "@chakra-ui/icons";
 
 const QUERY_MEMO = gql`
 query Notes($groupId: ID!) {
@@ -21,21 +34,22 @@ const MemoBox = (props) => {
 
     const { data, loading } = useQuery(QUERY_MEMO,{
         variables : {
-            groupId : props.user._id
+            groupId : props.group._id
         },
         onError(graphQLError) {
             console.log(graphQLError);
         }
     })
 
-    console.log(props.user._id)
+    console.log(props.group._id);
     console.log(data);
 
     const [note, setNote ] = useState({
         title : "",
         content : "",
         groupId : props.group._id,
-        owner : props.user._id
+        owner : props.user._id,
+        color : "",
     })
     const handleNoteTitleChange = (event) => {
         setNote({...note, title: event.target.value})
@@ -47,9 +61,28 @@ const MemoBox = (props) => {
         console.log(note)
     }
 
+    const handleNoteColorChange = (event) => {
+        setNote({...note, color : event.target.value});
+    }
+
     if (loading) return <Spinner />
     if (!loading) return (
         <>
+            <Box flex={5} w="100%" h="500px" bgColor="blackAlpha.800">
+                <Box w="100%" bgColor="#ECEEF1" p={3} >
+                    <HStack justify="space-between">
+                        <Text fontWeight="700" > 모든 메모 </Text>
+                        <Box>
+                            <HStack>
+                                <Button  size="xs" bgColor="blackAlpha.700" textColor="whiteAlpha.800" borderRadius={0}>크게 보기 </Button>
+                            </HStack>
+                        </Box>
+                    </HStack>
+                </Box>
+                {data.notes.map((item, index) => (
+                    <Box borderRadius="10px" m={5} p={2} bgColor="green">{item.content}</Box>
+                ))}=
+            </Box>
             <Box flex={3} w="100%" h="500px" bgColor="whiteAlpha.800">
             <Box w="100%" bgColor="#ECEEF1" p={3} >
                 <HStack justify="space-between">
@@ -76,24 +109,29 @@ const MemoBox = (props) => {
                     mb="5px"
                 />
                 <Box bgColor='blackAlpha.800' borderRadius="5px">
-                    <HStack justifyContent="end">
-                        <CreateNoteButton user={props.user} group={props.group} title={props.title} note={note} />
+                    <HStack justifyContent="space-between">
+                        <Menu closeOnSelect={false} >
+                            <MenuButton as={Button} size="sm" colorScheme='blue' m={2}>
+                                색상 선택
+                            </MenuButton>
+                            <MenuList minWidth='240px'>
+                                <MenuOptionGroup defaultValue='red' title='색상' type='radio'>
+                                    <MenuItemOption icon={<Box w="14px" h="14px" bgColor="red" borderRadius="3px" />} value='red'>빨간색</MenuItemOption>
+                                    <MenuItemOption icon={<Box w="14px" h="14px" bgColor="red" borderRadius="3px" />} value='red'>빨간색</MenuItemOption>
+                                    <MenuItemOption icon={<Box w="14px" h="14px" bgColor="red" borderRadius="3px" />} value='red'>빨간색</MenuItemOption>
+                                    <MenuItemOption icon={<Box w="14px" h="14px" bgColor="red" borderRadius="3px" />} value='red'>빨간색</MenuItemOption>
+                                    <MenuItemOption icon={<Box w="14px" h="14px" bgColor="red" borderRadius="3px" />} value='red'>빨간색</MenuItemOption>
+                                    <MenuItemOption icon={<Box w="14px" h="14px" bgColor="red" borderRadius="3px" />} value='red'>빨간색</MenuItemOption>
+                                    <MenuItemOption icon={<Box w="14px" h="14px" bgColor="red" borderRadius="3px" />} value='red'>빨간색</MenuItemOption>
+                                </MenuOptionGroup>
+                            </MenuList>
+                        </Menu>
+                        <CreateNoteButton m={2} user={props.user} group={props.group} title={props.title} note={note} />
                     </HStack>
                 </Box>
             </Container>
             </Box>
-            <Box flex={5} w="100%" h="500px" bgColor="blackAlpha.800">
-                <Box w="100%" bgColor="#ECEEF1" p={3} >
-                    <HStack justify="space-between">
-                        <Text fontWeight="700" > 모든 메모 </Text>
-                        <Box>
-                            <HStack>
-                                <Button  size="xs" bgColor="blackAlpha.700" textColor="whiteAlpha.800" borderRadius={0}>크게 보기 </Button>
-                            </HStack>
-                        </Box>
-                    </HStack>
-                </Box>
-            </Box>
+
         </>
     )
 }

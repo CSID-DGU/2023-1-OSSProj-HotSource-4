@@ -3,10 +3,9 @@ import {gql, useMutation} from "@apollo/client";
 import {useEffect, useRef, useState} from "react";
 
 const CREATE_GROUP = gql`
-mutation CreateGroup($name: String!, $assignmentPeriod: AssignmentPeriodInput!, $gradeReleaseDate: DateTime!, $extensionAllowed: Boolean!) {
-  createGroup(name: $name, assignmentPeriod: $assignmentPeriod, gradeReleaseDate: $gradeReleaseDate, extensionAllowed: $extensionAllowed) {
+mutation CreateGroup($name: String!, $assignmentPeriod: AssignmentPeriodInput!, $gradeReleaseDate: DateTime!, $extensionAllowed: Boolean!, $subjectId: ID!) {
+  createGroup(name: $name, assignmentPeriod: $assignmentPeriod, gradeReleaseDate: $gradeReleaseDate, extensionAllowed: $extensionAllowed, subjectId: $subjectId) {
     _id
-    name
   }
 }
 `
@@ -37,7 +36,8 @@ const CreateGroupButton = (props) => {
                 end : props.group.assignmentPeriod.end
             },
             gradeReleaseDate : props.group.gradeReleaseDate,
-            extensionAllowed : props.group.extensionAllowed
+            extensionAllowed : props.group.extensionAllowed,
+            subjectId : props.group.subjectId
         },
         onCompleted: (groupData) => {
             console.log(groupData)

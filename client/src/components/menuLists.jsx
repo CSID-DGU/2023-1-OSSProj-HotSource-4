@@ -1,6 +1,7 @@
 import {Button, Menu, MenuButton, MenuItem, MenuList, Select, Spinner} from "@chakra-ui/react";
 import {gql, useQuery} from "@apollo/client";
 import {ChevronDownIcon} from "@chakra-ui/icons";
+import {useEffect} from "react";
 
 const QUERY_SUBJECT = gql`
 query Subject($id: ID!) {
@@ -19,10 +20,8 @@ query Subject($id: ID!) {
 
 const MenuLists = (props) => {
 
-    const _id = props.data.user.subjects[0]._id;
-    const values = { id : _id};
-    const { data, loading, error } = useQuery(QUERY_SUBJECT, {
-        variables: values,
+
+    const [ query, { data, loading, error } ] = useQuery(QUERY_SUBJECT, {
         onError(graphglError){
             console.log(graphglError);
         }
@@ -44,6 +43,11 @@ const MenuLists = (props) => {
                 rightIcon={<ChevronDownIcon />}
                 fontSize={12}
                 >
+            {props.data.user.subjects.map((item) =>
+                (
+                <option onClick={props.setTitle(item._id)} value={item._id} >{item.name}</option>
+            )  )}
+
                 <option onClick={props.setTitle(data.subject._id)} value={data.subject._id}> {data.subject.name}  </option>
         </Select >
 

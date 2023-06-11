@@ -24,7 +24,7 @@ export const mutCreateGroup = async (
     members: [user._id],
     assignmentPeriod,
     gradeReleaseDate,
-    extensionAllowed,
+    extensionAllowed
   });
 
   const savedGroup = await group.save();

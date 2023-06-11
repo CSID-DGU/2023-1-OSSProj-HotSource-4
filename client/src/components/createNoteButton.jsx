@@ -2,8 +2,8 @@ import {Button} from "@chakra-ui/react";
 import {gql, useMutation } from "@apollo/client";
 
 const CREATE_NOTE = gql`
-mutation CreateNote($title: String!, $content: String!, $groupId: ID!, $owner: ID!) {
-  createNote(title: $title, content: $content, groupId: $groupId, owner: $owner) {
+mutation CreateNote($title: String!, $groupId: ID!, $content: String!, $color: String!) {
+  createNote(title: $title, groupId: $groupId, content: $content, color: $color) {
     title
     owner {
       _id
