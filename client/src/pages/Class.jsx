@@ -1,9 +1,9 @@
 import {
     Box,
     Container,
-    Flex, Spinner
+    Flex, Spinner, useToast
 } from "@chakra-ui/react";
-import {useContext, useEffect, useRef, useState} from "react";
+import {useContext, useRef, useState} from "react";
 import NavBar from "../components/navBar";
 import Footer from "../components/footer";
 import ClassAccordionTab from "../components/classAccordionTab";
@@ -35,7 +35,7 @@ const Class = (props) => {
     const [tab, setTab ] = useState(0);
 
     const context = useContext(AuthContext);
-    const values = { userId : context.user.userId };
+    const values = { userId : get_userId() };
     const { data, loading, error } = useQuery(QUERY_USER, {
         variables: values,
         onError(graphglError){
@@ -43,16 +43,22 @@ const Class = (props) => {
         }
     });
 
-
     const setContents = (n, m) => {
         setIndex(n);
         setTab(m);
     }
 
+    function get_userId () {
+        if(localStorage.getItem("token")) return context.user.userId
+        else {
+            window.location.replace("/login");
+        }
+    }
+
     if(loading) return (<Spinner />)
     if(!loading) return (<>
         <NavBar />
-        <ClassTitleBox title={title} setTitle={setTitle}/>  {/*메인 과목명 Container*/}
+        <ClassTitleBox title={title} setTitle={setTitle}/>
 
         <Container
             maxW="80%"

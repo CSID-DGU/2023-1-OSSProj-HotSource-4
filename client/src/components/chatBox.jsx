@@ -13,8 +13,7 @@ import {
 import {BsFillSendFill} from "react-icons/bs";
 import {useEffect, useState} from "react";
 import {gql, useMutation, useQuery} from "@apollo/client";
-import {wait} from "@apollo/client/testing";
-import {use} from "bcrypt/promises";
+import Layout from "../Layout/showUpLayout";
 
 const SEND_MESSAGE = gql`
 mutation SendMessage($content: String!, $groupId: ID!) {
@@ -37,6 +36,7 @@ query Messages($groupId: ID!) {
 }
 `
 
+
 const ChatBox = (props) => {
 
     const [message, setMessage ] = useState("")
@@ -46,7 +46,7 @@ const ChatBox = (props) => {
         variables : {
             groupId : props.group._id
         },
-        pollInterval : 200,
+        pollInterval : 100,
     })
 
     useEffect(() => {
@@ -74,7 +74,6 @@ const ChatBox = (props) => {
 
     const handleMassageChange = (event) => {
         setMessage(event.target.value);
-        console.log(event.target.value);
     }
     const handleMessageSend = () => {
         if(message == "") return;
@@ -91,7 +90,7 @@ const ChatBox = (props) => {
 
     const refresh = () => {
         let mySpace = document.getElementById("groupChatBox");
-        mySpace.scrollTop = mySpace.scrollHeight;
+        if (mySpace) mySpace.scrollTop = mySpace.scrollHeight;
     }
 
     const get_username = (item) => {
@@ -120,13 +119,14 @@ const ChatBox = (props) => {
             flex={3}
             w="100%"
             h="500px"
-            bgColor="#F2EAC2"
+            bgColor="#ECEEF1"
             borderRadius="15px"
         >
             <VStack >
                 <Box
                     w="100%"
-                    borderRadius="15px"
+                    bgColor="#ECEEF1"
+                    //borderRadius="15px"
                     p={2}
                 >
                     <HStack  justify="space-between" >
@@ -141,7 +141,6 @@ const ChatBox = (props) => {
                                         fontSize="12px"
                                         fontWeight="700"
                                         letterSpacing="1px"
-                                        p={1}
                                     >
                                         팀원보기
                                     </Button>
@@ -151,9 +150,9 @@ const ChatBox = (props) => {
                                     <PopoverCloseButton />
                                     <PopoverHeader>그룹에 참여하고 있는 사람</PopoverHeader>
                                     <PopoverBody>
-                                        {props.group.members.filter((item, index) => index != 0).map((item, index)=> (
-                                            <Text fontSize="14px" >{ get_username(item) }</Text>
-                                        )) }
+                                            {props.group.members.filter((item, index) => index != 0).map((item, index)=> (
+                                                    <Text fontSize="14px" >{ get_username(item) }</Text>
+                                            )) }
                                     </PopoverBody>
                                 </PopoverContent>
                             </Popover>
@@ -170,21 +169,21 @@ const ChatBox = (props) => {
                     {data.messages.map((item, index) => (
                         <>
                             {item.user._id == props.user._id ?
-                                    <>
+                                    <Layout>
                                         <Text textAlign="end" fontWeight="700" fontSize="14px">{get_username(item.user)}</Text>
                                         <HStack justifyContent="end">
                                             <Box px={3} py={2} maxW="60%" bgColor="#F5F1E0" borderRadius="10px">{item.content}</Box>
                                         </HStack>
                                         <Text textAlign="end" mb={5} fontWeight="500" fontSize="10px" textColor="blackAlpha.600">{get_time(item.createdAt)}</Text>
-                                    </>
+                                    </Layout>
                                         :
-                                    <>
+                                    <Layout>
                                         <Text textAlign="start" fontWeight="700" fontSize="14px">{get_username(item.user)}</Text>
                                         <HStack justifyContent="start">
                                             <Box px={3} py={2} maxW="60%" bgColor="white" borderRadius="10px">{item.content}</Box>
                                         </HStack>
                                         <Text textAlign="start" mb={5} fontWeight="500" fontSize="10px" textColor="blackAlpha.600">{get_time(item.createdAt)}</Text>
-                                    </>
+                                    </Layout>
                             }
                             {active ? refresh() : null}
                         </>
@@ -192,7 +191,7 @@ const ChatBox = (props) => {
 
                 </Box>
                 <Box w="95%" >
-                    <HStack mt={2} align="space-between">
+                    <HStack mt={1} p={1} align="space-between">
                         <Input
                             bgColor="whiteAlpha.700"
                             onKeyUp={enterkey}

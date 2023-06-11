@@ -51,12 +51,8 @@ const NavBar = (props) => {
         }
     });
 
-    console.log(data);
-    console.log(loading)
-
     const handleLogout = () => {
         context.logout();
-        window.location.replace("/login");
     }
 
    if(loading) return (<Spinner />)

@@ -53,24 +53,24 @@ const ClassLearningContent = (props) => {
                                             <Th bgColor="blackAlpha.800"></Th>
                                             <Th bgColor="blackAlpha.800">
                                                 <HStack >
-                                                    <Text fontSize="15" textColor="white">9주차 </Text>
+                                                    <Text fontSize="15" textColor="white">X주차 </Text>
                                                     <Button colorScheme="orange" size="xs">학습목표 보기</Button>
                                                 </HStack>
-                                                <Text textColor="white">2023-04-09 ~ 2023-04-16</Text>
+                                                <Text textColor="white">2023-XX-XX ~ 2023-XX-XX</Text>
                                             </Th>
                                             <Th bgColor="blackAlpha.800">
                                                 <HStack >
-                                                    <Text fontSize="15" textColor="white">10주차</Text>
+                                                    <Text fontSize="15" textColor="white">X주차</Text>
                                                     <Button colorScheme="orange" size="xs">학습목표 보기</Button>
                                                 </HStack>
-                                                <Text textColor="white">2023-04-09 ~ 2023-04-16</Text>
+                                                <Text textColor="white">2023-XX-XX ~ 2023-XX-XX</Text>
                                             </Th>
                                             <Th bgColor="blackAlpha.800">
                                                 <HStack >
-                                                    <Text fontSize="15" textColor="white">11주차</Text>
+                                                    <Text fontSize="15" textColor="white">X주차</Text>
                                                     <Button colorScheme="orange" size="xs">학습목표 보기</Button>
                                                 </HStack>
-                                                <Text textColor="white">2023-04-09 ~ 2023-04-16</Text>
+                                                <Text textColor="white">2023-XX-XX ~ 2023-XX-XX</Text>
                                             </Th>
                                         </Tr>
                                     </Thead>
@@ -80,39 +80,19 @@ const ClassLearningContent = (props) => {
                                             <Td p={0} >
                                                 <Box w="260px" h="120px" p={3} bgColor="#DFF2C2">
                                                     <Text textColor="#2A410E" fontWeight="600" fontSize="12px">
-                                                        9주차 1강
+                                                        X주차 1강
                                                     </Text>
                                                     <Text textColor="#2A410E" fontWeight="700" fontSize="12px">
-                                                        강의 기간 : 2023-04-09 ~ 2023-04-16
+                                                        강의 기간 : 2023-XX-XX ~ 2023-XX-XX
                                                     </Text>
                                                     <Progress mt={4} value={100} size='md' />
                                                 </Box>
                                                 <Box w="260px" h="120px" p={3} bgColor="#DFF2C2">
                                                     <Text textColor="#2A410E" fontWeight="600" fontSize="12px">
-                                                        9주차 2강
+                                                        X주차 2강
                                                     </Text>
                                                     <Text textColor="#2A410E" fontWeight="700" fontSize="12px">
-                                                        강의 기간 : 2023-04-09 ~ 2023-04-16
-                                                    </Text>
-                                                    <Progress mt={4} value={100} size='md' />
-                                                </Box>
-                                            </Td>
-                                            <Td p={0} >
-                                                <Box w="260px" h="120px" p={3} bgColor="#DFF2C2">
-                                                    <Text textColor="#2A410E" fontWeight="600" fontSize="12px">
-                                                        10주차 1강
-                                                    </Text>
-                                                    <Text textColor="#2A410E" fontWeight="700" fontSize="12px">
-                                                        강의 기간 : 2023-04-09 ~ 2023-04-16
-                                                    </Text>
-                                                    <Progress mt={4} value={100} size='md' />
-                                                </Box>
-                                                <Box w="260px" h="120px" p={3} bgColor="#DFF2C2">
-                                                    <Text textColor="#2A410E" fontWeight="600" fontSize="12px">
-                                                        10주차 2강
-                                                    </Text>
-                                                    <Text textColor="#2A410E" fontWeight="700" fontSize="12px">
-                                                        강의 기간 : 2023-04-09 ~ 2023-04-16
+                                                        강의 기간 : 2023-XX-XX ~ 2023-XX-XX
                                                     </Text>
                                                     <Progress mt={4} value={100} size='md' />
                                                 </Box>
@@ -120,19 +100,39 @@ const ClassLearningContent = (props) => {
                                             <Td p={0} >
                                                 <Box w="260px" h="120px" p={3} bgColor="#DFF2C2">
                                                     <Text textColor="#2A410E" fontWeight="600" fontSize="12px">
-                                                        11주차 1강
+                                                        X주차 1강
                                                     </Text>
                                                     <Text textColor="#2A410E" fontWeight="700" fontSize="12px">
-                                                        강의 기간 : 2023-04-09 ~ 2023-04-16
+                                                        강의 기간 : 2023-XX-XX ~ 2023-XX-XX
+                                                    </Text>
+                                                    <Progress mt={4} value={100} size='md' />
+                                                </Box>
+                                                <Box w="260px" h="120px" p={3} bgColor="#DFF2C2">
+                                                    <Text textColor="#2A410E" fontWeight="600" fontSize="12px">
+                                                        X주차 2강
+                                                    </Text>
+                                                    <Text textColor="#2A410E" fontWeight="700" fontSize="12px">
+                                                        강의 기간 : 2023-XX-XX ~ 2023-XX-XX
+                                                    </Text>
+                                                    <Progress mt={4} value={100} size='md' />
+                                                </Box>
+                                            </Td>
+                                            <Td p={0} >
+                                                <Box w="260px" h="120px" p={3} bgColor="#DFF2C2">
+                                                    <Text textColor="#2A410E" fontWeight="600" fontSize="12px">
+                                                        X주차 1강
+                                                    </Text>
+                                                    <Text textColor="#2A410E" fontWeight="700" fontSize="12px">
+                                                        강의 기간 : 2023-XX-XX ~ 2023-XX-XX
                                                     </Text>
                                                     <Progress mt={4} size='md' value={100} />
                                                 </Box>
                                                 <Box w="260px" h="120px" p={3} bgColor="#DFF2C2">
                                                     <Text textColor="#2A410E" fontWeight="600" fontSize="12px">
-                                                        11주차 2강
+                                                        X주차 2강
                                                     </Text>
                                                     <Text textColor="#2A410E" fontWeight="700" fontSize="12px">
-                                                        강의 기간 : 2023-04-09 ~ 2023-04-16
+                                                        강의 기간 : 2023-XX-XX ~ 2023-XX-XX
                                                     </Text>
                                                     <Progress isAnimated mt={4} size='md' value={100} />
                                                 </Box>
