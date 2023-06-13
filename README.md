@@ -5,13 +5,6 @@
 
 # 프로젝트 제목 : 오픈소스를 활용하여 이클래스에 협업 기능 개발
 ---
-## Team Member
-
-|학번|이름|역할|
-|------|---|---| 
-|2018112964|민헌준|프론트엔드|
-|2017112801|고영웅|백엔드|
-|2020111727|이유빈|백엔드|
 
 
 ## Tech Stack
@@ -68,8 +61,8 @@
 <br>
 
 ### 개발자:
-|이름|전화번호|github|email|
-|------|---|---|---|
-|민헌준||https://github.com/Kenjunn0|tamunavollt1@gmail.com|
-|고영웅|01039050389|https://github.com/UniverseDolphin|mentist9803@naver.com|
-|이유빈|01077113696|https://github.com/a0100019|dldbqls0019@naver.com|
+|이름|학번|역할|전화번호|github|email|
+|------|---|---|---|---|---|
+|민헌준|2018112964|프론트엔드|01085217581|https://github.com/Kenjunn0|tamunavollt1@gmail.com|
+|고영웅|2017112801|백엔드|01039050389|https://github.com/UniverseDolphin|mentist9803@naver.com|
+|이유빈|2020111727|백엔드|01077113696|https://github.com/a0100019|dldbqls0019@naver.com|
