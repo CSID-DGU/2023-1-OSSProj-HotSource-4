@@ -70,6 +70,6 @@
 ### 개발자:
 |이름|전화번호|github|email|
 |------|---|---|---|
-|민헌준||||
+|민헌준||https://github.com/Kenjunn0|tamunavollt1@gmail.com|
 |고영웅|01039050389|https://github.com/UniverseDolphin|mentist9803@naver.com|
 |이유빈|01077113696|https://github.com/a0100019|dldbqls0019@naver.com|
