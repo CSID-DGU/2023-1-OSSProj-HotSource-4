@@ -63,9 +63,6 @@ const GroupLists = (props) => {
             }
         })
 
-    console.log(data);
-
-
     const toast = useToast()
     const toastIdRef = useRef()
     const [show, setShow] = useState(false)

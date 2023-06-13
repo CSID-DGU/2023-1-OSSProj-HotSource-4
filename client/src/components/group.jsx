@@ -61,8 +61,7 @@ const Group = (props) => {
     }})
 
     const [ updateGroup, { } ] = useMutation(UPDATE_GROUP,{
-        onCompleted : data => {
-            console.log(props.group);
+        onCompleted : data => {;
         },
         onError(graphEQError){
             console.log(graphEQError);
@@ -124,7 +123,6 @@ const Group = (props) => {
                     submissionStatus : true
                 }
             })
-            console.log("마감")
         }
 
     }, [])

@@ -21,7 +21,6 @@ const CreateGroupButton = (props) => {
 
     const [addUserToGroup, {}] = useMutation(ADD_GROUP,  {
         update(proxy, {data: {addUserToGroup: userData }}) {
-            console.log(userData);
         },
         onError({graphQLErrors}){
             console.log(graphQLErrors[0].message);
@@ -40,7 +39,6 @@ const CreateGroupButton = (props) => {
             subjectId : props.group.subjectId
         },
         onCompleted: (groupData) => {
-            console.log(groupData)
             props.selectedUser.map((item, index) => {
                 addUserToGroup({
                     variables : {

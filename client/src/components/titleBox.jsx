@@ -47,8 +47,6 @@ const TitleBox = (props) => {
         }
     });
 
-    console.log(data);
-
     if(loading) return (
         <Container
             display={ props.hidden ? "none" : "flex" }

@@ -57,7 +57,6 @@ const CreateGroupModal = (props) => {
     const handleGroupNmChange = (event) => props.setGroup({ ...props.group, name : event.target.value })
     const handleGroupPdStartChange = (event) => {
         if(Date.parse(event.target.value) - props.group.assignmentPeriod.endValue > 0){
-            console.log(Date.parse(event.target.value) - props.group.assignmentPeriod.endValue)
             props.setGroup({...props.group, assignmentPeriod : {
                     ...props.group.assignmentPeriod,
                     start : "",
@@ -76,7 +75,6 @@ const CreateGroupModal = (props) => {
         }
 
     }
-    console.log(props.group.assignmentPeriod)
     const handleGroupPdEndChange = (event) => {
         if(props.group.assignmentPeriod.startValue - Date.parse(event.target.value) > 0  ||
             Date.parse(event.target.value) - props.group.gradeReleaseDateValue > 0)
@@ -95,8 +93,6 @@ const CreateGroupModal = (props) => {
                 endValue: Date.parse(event.target.value)
             } })
     }
-    console.log(props.group.subjectId)
-    console.log(props.selectedUser)
 
     const handleGradeReleaseChange = (event) => {
         if(props.group.assignmentPeriod.endValue - Date.parse(event.target.value) > 0 ){
@@ -122,7 +118,6 @@ const CreateGroupModal = (props) => {
     }
 
     const handleExtendAllowedChange = (event) => {
-        console.log(event.target.checked);
         props.setGroup(
             {
                 ...props.group,
@@ -148,7 +143,6 @@ const CreateGroupModal = (props) => {
     }
 
     function handleDeleteClick(event) {
-        console.log(event.target.value)
         props.setSelectedUser(props.selectedUser.filter( (item, index) => index != event.target.value ))
     }
 

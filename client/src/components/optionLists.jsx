@@ -28,20 +28,14 @@ const OptionLists = (props) => {
 
     function changeSelection() {
         const selectedItem = document.getElementById("select");
-        console.log(selectedItem);
         const itemName = selectedItem[selectedItem.selectedIndex].value;
-        console.log(itemName);
 
         props.setTitle(itemName);
     }
 
     function checkUser(item) {
         for(let i = 0; i < item.length; i++){
-            console.log(item[i]._id)
-            if(item[i]._id == props.data.user._id) {
-                console.log("있음")
-                return true
-            }
+            if(item[i]._id == props.data.user._id) return true
         }
 
     }

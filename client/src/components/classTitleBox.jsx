@@ -47,14 +47,13 @@ const ClassTitleBox = (props) => {
         }
     });
 
-    console.log(data);
 
 
     const handleTopBox = () => {
         setHidden(!hidden);
     }
 
-    console.log(props.title);
+
 
     if(loading) return (<Spinner />)
     if(!loading) return (
