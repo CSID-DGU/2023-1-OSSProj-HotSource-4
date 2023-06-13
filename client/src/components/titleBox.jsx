@@ -1,5 +1,4 @@
 import {Box, Button, Container, Divider, HStack, Spinner, StackDivider, Text} from "@chakra-ui/react";
-import {EmailIcon} from "@chakra-ui/icons";
 import {gql, useQuery} from "@apollo/client";
 
 const QUERY_SUBJECT = gql`

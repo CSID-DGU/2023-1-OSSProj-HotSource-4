@@ -1,6 +1,5 @@
-import React, {useReducer, createContext, useState, useEffect} from "react";
+import React, {useReducer, createContext} from "react";
 import jwtDecode from "jwt-decode";
-import {useQuery, gql, useMutation} from "@apollo/client";
 
 
 const initialState = {

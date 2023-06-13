@@ -1,22 +1,14 @@
 import {
-    Box,
     Button,
     Container,
-    Divider,
     HStack,
-    Menu,
-    MenuButton, MenuItem,
-    MenuList, Spinner,
-    StackDivider,
-    Text, useToast
+    Spinner,
 } from "@chakra-ui/react";
-import {ChevronDownIcon, ChevronUpIcon, EmailIcon, InfoIcon} from "@chakra-ui/icons";
-import {useContext, useEffect, useRef, useState} from "react";
+import {ChevronDownIcon, ChevronUpIcon, InfoIcon} from "@chakra-ui/icons";
+import {useContext, useState} from "react";
 import {gql, useQuery} from "@apollo/client";
 import {AuthContext} from "../context/authContext";
-import MenuLists from "./menuLists";
 import TitleBox from "./titleBox";
-import MenuLists_admin from "./optionLists";
 import OptionLists from "./optionLists";
 
 const QUERY_USER = gql`

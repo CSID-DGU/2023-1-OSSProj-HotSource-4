@@ -6,8 +6,9 @@ import {
     Heading, HStack,
     Input,
     InputGroup,
-    InputLeftAddon, InputRightElement,
-    Link, localStorageManager, Stack,
+    InputLeftAddon,
+    InputRightElement,
+    Stack,
     Text, useToast, VStack
 } from "@chakra-ui/react";
 import {useState, useRef, useContext} from "react";

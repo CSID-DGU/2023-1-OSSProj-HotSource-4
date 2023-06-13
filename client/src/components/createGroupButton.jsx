@@ -1,6 +1,6 @@
 import {Button, HStack, Spinner, useToast} from "@chakra-ui/react";
 import {gql, useMutation} from "@apollo/client";
-import {useEffect, useRef, useState} from "react";
+import {useRef} from "react";
 
 const CREATE_GROUP = gql`
 mutation CreateGroup($name: String!, $assignmentPeriod: AssignmentPeriodInput!, $gradeReleaseDate: DateTime!, $extensionAllowed: Boolean!, $subjectId: ID!) {

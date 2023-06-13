@@ -9,7 +9,6 @@ import {
     Link
 } from "@chakra-ui/react";
 import {EditIcon} from "@chakra-ui/icons";
-import {useState} from "react";
 
 const ClassAccordionTab = (props) => {
     const setContents = (n, m) => {

@@ -1,6 +1,6 @@
 import Layout from "../Layout/showUpLayout";
 import HoverEffect from "../Layout/hoverEffect";
-import {Box, Button, Heading, HStack, Input, Spinner, Text, Textarea, useToast, VStack} from "@chakra-ui/react";
+import {Box, Spinner, useToast, } from "@chakra-ui/react";
 import {gql, useMutation, useQuery} from "@apollo/client";
 import {useRef, useState} from "react";
 import Memo from "./memo";

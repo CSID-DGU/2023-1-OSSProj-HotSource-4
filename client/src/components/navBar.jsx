@@ -5,7 +5,8 @@ import {
     Stack,
     Text,
     Button,
-    StackDivider, useToast, Spinner
+    StackDivider,
+    Spinner
 } from "@chakra-ui/react";
 import { EmailIcon } from "@chakra-ui/icons";
 import { BsFillHouseFill, BsPersonFill, BsChatSquare } from "react-icons/bs";

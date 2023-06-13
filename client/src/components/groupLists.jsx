@@ -10,7 +10,7 @@ import {
     ModalOverlay, Spinner,
     useDisclosure, useToast,
 } from "@chakra-ui/react";
-import {useEffect, useRef, useState} from "react";
+import { useRef, useState} from "react";
 import Group from "./group.jsx";
 import CreateGroupModal from "./createGroupModal";
 import {gql, useQuery} from "@apollo/client";
