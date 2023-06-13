@@ -56,7 +56,7 @@ const Class = (props) => {
     }
 
     if(loading) return (<Spinner />)
-    if(!loading) return (<>
+    if(!loading && localStorage.getItem("token")) return (<>
         <NavBar />
         <ClassTitleBox title={title} setTitle={setTitle}/>
 

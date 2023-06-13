@@ -9,9 +9,6 @@ import { Navigate } from "react-router-dom";
 
 function App(props) {
 
-
-
-
   return (
         <BrowserRouter>
             {localStorage.getItem("token") ?  <Navigate replace to={`/class`} />: <Navigate replace to="/login" /> }

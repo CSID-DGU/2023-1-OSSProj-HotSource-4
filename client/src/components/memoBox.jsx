@@ -52,12 +52,10 @@ const MemoBox = (props) => {
     })
     const handleNoteTitleChange = (event) => {
         setNote({...note, title: event.target.value})
-        console.log(note)
     }
 
     const handleNoteContentChange = (event) => {
         setNote({...note, content: event.target.value})
-        console.log(note)
     }
 
     const handleNoteColorChange = (Color) => {

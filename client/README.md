@@ -1,7 +1,6 @@
 
-# FrontEnd Directory
-
-Developer : Kennjun
+# FrontEnd
+민헌준
 
 ## image used
 

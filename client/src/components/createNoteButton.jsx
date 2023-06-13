@@ -22,7 +22,6 @@ const CreateNoteButton = (props) => {
     const [createNote, {loading} ] = useMutation(CREATE_NOTE, {
         variables : props.note,
         onCompleted: ( data) => {
-            console.log(data)
             addToast("메모가 생성되었습니다", "success")
             props.setNote({
                 title : "",

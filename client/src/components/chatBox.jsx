@@ -65,7 +65,6 @@ const ChatBox = (props) => {
         },
         onCompleted : data => {
             setMessage("");
-            console.log(data);
         },
         onError(graphQLError){
             console.log(graphQLError);
@@ -126,7 +125,6 @@ const ChatBox = (props) => {
                 <Box
                     w="100%"
                     bgColor="#ECEEF1"
-                    //borderRadius="15px"
                     p={2}
                 >
                     <HStack  justify="space-between" >
@@ -162,7 +160,7 @@ const ChatBox = (props) => {
                 <Box
                     w="100%"
                     h="380px"
-                    bgGradient='linear(to-t, #F2B950 0%, #F2EAC2 100%)'
+                    bgColor="blackAlpha.800"
                     id="groupChatBox"
                     overflow="scroll"
                     p={3}>
