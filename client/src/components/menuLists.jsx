@@ -1,7 +1,7 @@
-import {Button, Menu, MenuButton, MenuItem, MenuList, Select, Spinner} from "@chakra-ui/react";
+import { Select, Spinner} from "@chakra-ui/react";
 import {gql, useQuery} from "@apollo/client";
 import {ChevronDownIcon} from "@chakra-ui/icons";
-import {useEffect} from "react";
+
 
 const QUERY_SUBJECT = gql`
 query Subject($id: ID!) {

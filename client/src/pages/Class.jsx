@@ -1,9 +1,10 @@
 import {
     Box,
     Container,
-    Flex, Spinner, useToast
+    Flex,
+    Spinner
 } from "@chakra-ui/react";
-import {useContext, useRef, useState} from "react";
+import {useContext, useState} from "react";
 import NavBar from "../components/navBar";
 import Footer from "../components/footer";
 import ClassAccordionTab from "../components/classAccordionTab";

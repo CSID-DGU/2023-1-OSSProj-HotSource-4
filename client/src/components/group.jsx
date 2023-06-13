@@ -21,7 +21,7 @@ import {
     Flex,
     Spinner, useToast
 } from "@chakra-ui/react";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useRef} from "react";
 import MemoBox from "./memoBox";
 import {gql, useMutation, useQuery} from "@apollo/client";
 import ChatBox from "./chatBox";

@@ -1,5 +1,4 @@
 import {Box, Button, Container, Heading, HStack, Tab, TabList, TabPanel, TabPanels, Tabs} from "@chakra-ui/react";
-import GridItem from "./groupLists";
 import GroupLists from "./groupLists";
 
 const ClassActivityContent = (props) => {

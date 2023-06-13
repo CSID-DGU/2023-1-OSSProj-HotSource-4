@@ -1,5 +1,4 @@
 import {
-    Container,
     Heading,
     Box,
     Select,
@@ -10,7 +9,7 @@ import {
     Checkbox,
     Button, Text, Spinner
 } from "@chakra-ui/react";
-import {gql, useMutation, useQuery} from "@apollo/client";
+import {gql, useQuery} from "@apollo/client";
 import {ChevronDownIcon} from "@chakra-ui/icons";
 import {useEffect, useRef, useState} from "react";
 import CreateGroupButton from "./createGroupButton";

@@ -1,4 +1,4 @@
-import {BrowserRouter, Route, Routes, useNavigate} from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Login from "./pages/Login";
 import Notfound from "./pages/404";
 import Class from "./pages/Class";
@@ -7,7 +7,7 @@ import { Navigate } from "react-router-dom";
 
 
 
-function App(props) {
+function App() {
 
   return (
         <BrowserRouter>
