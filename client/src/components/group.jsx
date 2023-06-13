@@ -15,20 +15,15 @@ import {
     ModalOverlay,
     ModalContent,
     ModalHeader,
-    ModalCloseButton,
     ModalBody,
     ModalFooter,
     useDisclosure,
     Flex,
-    Textarea, StepIcon, Input, Container, Spinner
+    Spinner, useToast
 } from "@chakra-ui/react";
-import {Icon} from "@chakra-ui/icons";
-import {BsFillSendFill} from "react-icons/bs";
-import {useEffect, useState} from "react";
-import CreateNoteButton from "./createNoteButton";
+import {useEffect, useRef, useState} from "react";
 import MemoBox from "./memoBox";
-import {gql, useQuery} from "@apollo/client";
-import {onError} from "@apollo/client/link/error";
+import {gql, useMutation, useQuery} from "@apollo/client";
 import ChatBox from "./chatBox";
 
 const USER = gql`
@@ -40,13 +35,48 @@ query Users {
 }
 `
 
-const GroupProject = (props) => {
+const UPDATE_GROUP = gql`
+mutation UpdateGroup($groupId: ID!, $submissionStatus: Boolean, $assignmentPeriod: AssignmentPeriodInput, $gradeReleaseDate: DateTime, $extensionAllowed: Boolean) {
+  updateGroup(groupId: $groupId, submissionStatus: $submissionStatus, assignmentPeriod: $assignmentPeriod, gradeReleaseDate: $gradeReleaseDate, extensionAllowed: $extensionAllowed) {
+    _id
+  }
+}
+`
+
+const DELETE_GROUP = gql`
+mutation DeleteGroup($groupId: ID!) {
+  deleteGroup(groupId: $groupId) {
+    _id
+  }
+}
+`
+
+
+const Group = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const {data, loading } = useQuery(USER,{
         onError(graphQLError){
         console.log(graphQLError)
     }})
+
+    const [ updateGroup, { } ] = useMutation(UPDATE_GROUP,{
+        onCompleted : data => {
+            console.log(props.group);
+        },
+        onError(graphEQError){
+            console.log(graphEQError);
+        }
+    })
+
+    const [ deleteGroup, {} ] = useMutation(DELETE_GROUP, {
+        variables : {
+            groupId : props.group._id
+        },
+        onCompleted: data => {
+            addToast("성공적으로 삭제했습니다", "success");
+        }
+    })
 
     const get_username = (item) => {
         for(let i = 0; i < data.users.length; i++){
@@ -72,24 +102,53 @@ const GroupProject = (props) => {
         return dateString + ' ' + timeString
     }
 
+    function handleDeleteGroup () {
+        deleteGroup();
+    }
+
+    const toast = useToast()
+    const toastIdRef = useRef()
+    function addToast(text, type) {
+        toastIdRef.current = toast(
+            {
+                description: text,
+                status: type
+            })
+    }
+
     useEffect(() => {
-        if(Date.parse(props.group.submissionStatus) - Date.now() < 0) console.log("마감")
-        console.log(props.group.members);
+        if(Date.parse(props.group.assignmentPeriod.end) - Date.now() < 0) {
+            updateGroup({
+                variables : {
+                    groupId : props.group._id,
+                    submissionStatus : true
+                }
+            })
+            console.log("마감")
+        }
+
     }, [])
 
 
 
     if (loading) return <Spinner />
-    if (!loading) return(
+    if (!loading ) return(
     <>
         <GridItem w="100%" borderColor="blackAlpha.300" borderWidth={1} shadow="dark-lg">
             <VStack spacing={2}>
                 <Box w="100%" bgColor="#ECEEF1" p={3} >
                     <HStack justify="space-between">
-                        <Text fontWeight="700" >{props.group.name}</Text>
+                        <HStack>
+                            <Text fontWeight="700" >{props.group.name}</Text>
+                            { !props.group.submissionStatus ? <Text color="blue.500" fontWeight="800">[ 진행중 ]</Text> : <Text color="red.400" fontWeight="800">[ 마감 ]</Text> }
+                        </HStack>
                         <Box>
                             <HStack>
-                                { !props.group.submissionStatus ? <Button onClick={onOpen} size="xs" bgColor="blackAlpha.700" textColor="whiteAlpha.800" borderRadius={0}>팀 활동 </Button> : <Box /> }
+                                { !props.group.submissionStatus && !props.user.isAdmin ?
+                                    <Button onClick={onOpen} size="xs" bgColor="blackAlpha.700" colorScheme="blackAlpha" textColor="whiteAlpha.800" borderRadius={0}>팀 활동 </Button>
+                                    :
+                                    <Button  size="xs" bgColor="blackAlpha.700" colorScheme="blackAlpha" textColor="whiteAlpha.800" borderRadius={0} onClick={handleDeleteGroup}>삭제 </Button>
+                                }
                             </HStack>
                         </Box>
                     </HStack>
@@ -168,4 +227,4 @@ const GroupProject = (props) => {
     )
 }
 
-export default GroupProject;
+export default Group;

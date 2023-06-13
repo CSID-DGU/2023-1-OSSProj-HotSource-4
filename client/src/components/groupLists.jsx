@@ -11,9 +11,10 @@ import {
     useDisclosure, useToast,
 } from "@chakra-ui/react";
 import {useEffect, useRef, useState} from "react";
-import GroupProject from "./groupProject.jsx";
+import Group from "./group.jsx";
 import CreateGroupModal from "./createGroupModal";
 import {gql, useQuery} from "@apollo/client";
+import Layout from "../Layout/showUpLayout";
 
 const SUBJECT_GROUP = gql`
 query SubjectGroups($subjectId: ID!) {
@@ -35,7 +36,7 @@ query SubjectGroups($subjectId: ID!) {
 `
 
 
-const GroupProjectList = (props) => {
+const GroupLists = (props) => {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [selectedUser, setSelectedUser ] = useState([]);
@@ -56,6 +57,7 @@ const GroupProjectList = (props) => {
     const { data, loading } = useQuery(SUBJECT_GROUP,
         {
             variables : { subjectId : props.title },
+            pollInterval : 100,
             onError(graphQLError) {
                 console.log(graphQLError);
             }
@@ -95,7 +97,9 @@ const GroupProjectList = (props) => {
             <Box>
                 <Grid gap="70px">
                     {data.subjectGroups.filter(item =>  searchingMember(item.members)).map((item, index)=> (
-                        <GroupProject group={item} index={index} user={props.user} title={props.title} />
+                        <Layout>
+                            <Group group={item} index={index} user={props.user} title={props.title} />
+                        </Layout>
                     ) ) }
                 </Grid>
             </Box>
@@ -132,4 +136,4 @@ const GroupProjectList = (props) => {
 }
 
 
-export default GroupProjectList;
+export default GroupLists;

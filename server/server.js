@@ -16,7 +16,7 @@ import { mutCreateUser } from "./controller/mutation/mutation.user.js";
 import {
   mutCreateGroup,
   mutAddUserToGroup,
-  mutUpdateGroup,
+  mutUpdateGroup, mutDeleteGroup,
 } from "./controller/mutation/mutation.group.js";
 import { mutLogin } from "./controller/mutation/mutation.login.js";
 import {
@@ -90,11 +90,15 @@ mongoose.connection.once("open", async () => {
         extensionAllowed: Boolean!
         subjectId: ID!
       ): Group
+      deleteGroup(
+        groupId: ID! 
+      ): Group
       updateGroup(
         groupId: ID!
         assignmentPeriod: AssignmentPeriodInput
         gradeReleaseDate: DateTime
         extensionAllowed: Boolean
+        submissionStatus: Boolean
       ): Group
       addUserToGroup(userId: ID!, groupId: ID!): Group
       createSubject(name: String!, credit: Int, classification: String): Subject
@@ -192,6 +196,7 @@ mongoose.connection.once("open", async () => {
       login: mutLogin,
       createGroup: mutCreateGroup,
       updateGroup: mutUpdateGroup,
+      deleteGroup: mutDeleteGroup,
       addUserToGroup: mutAddUserToGroup,
       createSubject: mutCreateSubject,
       addUserToSubject: mutAddUserToSubject,

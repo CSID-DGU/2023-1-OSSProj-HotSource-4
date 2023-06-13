@@ -2,6 +2,7 @@ import { AuthenticationError } from "apollo-server";
 import { Group } from "../../models/group.model.js";
 import { Subject } from "../../models/subject.model.js";
 import { requireAuth } from "../../user.permission.js";
+import {Note} from "../../models/note.model.js";
 
 export const mutCreateGroup = async (
   _,
@@ -39,7 +40,7 @@ export const mutCreateGroup = async (
 
 export const mutUpdateGroup = async (
   _,
-  { groupId, assignmentPeriod, gradeReleaseDate, extensionAllowed },
+  { groupId, assignmentPeriod, gradeReleaseDate, extensionAllowed, submissionStatus },
   { user }
 ) => {
   requireAuth(user);
@@ -61,6 +62,9 @@ export const mutUpdateGroup = async (
   if (extensionAllowed !== undefined) {
     group.extensionAllowed = extensionAllowed;
   }
+  if (submissionStatus !== undefined) {
+    group.submissionStatus = submissionStatus;
+  }
 
   const updatedGroup = await group.save();
   return updatedGroup;
@@ -81,4 +85,23 @@ export const mutAddUserToGroup = async (_, { userId, groupId }, { user }) => {
   }
   await Group.populate(group, "members");
   return group;
+};
+
+export const mutDeleteGroup = async (_, { groupId }, { user }) => {
+  requireAuth(user);
+
+  const group = await Group.findById(groupId);
+  if (!group || !group.members.includes(user._id)) {
+    throw new AuthenticationError("Unauthorized");
+  }
+  if (!user.isAdmin) {
+    throw new AuthenticationError("Only admins can delete groups");
+  }
+
+  const deletedGroup = await Group.findByIdAndDelete(groupId);
+  if (!deletedGroup) {
+    throw new Error("Group not found or already deleted");
+  }
+
+  return deletedGroup;
 };
