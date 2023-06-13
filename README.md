@@ -1,7 +1,7 @@
 <img alt="MIT" src ="https://img.shields.io/badge/license-MIT-salmon">  <img alt="" src ="https://img.shields.io/badge/IDE-VSCode-indianred"> <img alt="" src ="https://img.shields.io/badge/OS-ubuntu-coral"><br>
 
 ---
-# 2023-1-OSSProj-HotSource-4
+# 2023-1-OSSProj-HotSource-4 (동국대학교)
 
 # 프로젝트 제목 : 오픈소스를 활용하여 이클래스에 협업 기능 개발
 
@@ -175,7 +175,7 @@ npm start
 ```
 <br>
 
-### 프로젝트 구조도:
+### 프로젝트구조도:
 
 <p align="center">
 스키마 구조도
@@ -200,8 +200,8 @@ https://drive.google.com/file/d/1j_ovHXyGPBHO2YYSeSabLTgsuofICnUr/view?usp=drive
 <br><br>
 
 ### 개발자:
-|이름|학번|역할|전화번호|github|email|
-|------|---|---|---|---|---|
-|민헌준|2018112964|프론트엔드|01085217581|https://github.com/Kenjunn0|tamunavollt1@gmail.com|
-|고영웅|2017112801|백엔드|01039050389|https://github.com/UniverseDolphin|mentist9803@naver.com|
-|이유빈|2020111727|백엔드|01077113696|https://github.com/a0100019|dldbqls0019@naver.com|
+|이름|학번|역할|github|
+|------|---|---|---|
+|민헌준|2018112964|프론트엔드|https://github.com/Kenjunn0|
+|고영웅|2017112801|백엔드|https://github.com/UniverseDolphin|
+|이유빈|2020111727|백엔드|https://github.com/a0100019|
