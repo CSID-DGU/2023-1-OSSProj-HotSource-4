@@ -50,15 +50,26 @@
 
 <br>
 
- ## Credits:
+ ## 설치 밑 실행:
 
 <br>
 
 ## References:
-
 - https://github.com/CSID-DGU/2022-2-OSSProj-Let-sGitIt-6
+
 
 ## Requirements:
 - 주어진 API에 맞는 DB 서버(server/Router 참고)
 - API 키, DB 설정값, 세션 secret 정보 관련 환경변수 파일(.env)
 (해당 사항은 본인의 환경에 맞게 준비해야 함)
+
+### 데모영상 링크:
+
+<br>
+
+### 개발자:
+|이름|전화번호|github|email|
+|------|---|---|---|
+|민헌준||||
+|고영웅||||
+|이유빈|01077113696|https://github.com/a0100019|dldbqls0019@naver.com|
