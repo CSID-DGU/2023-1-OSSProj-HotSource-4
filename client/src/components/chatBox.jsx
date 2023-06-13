@@ -168,19 +168,19 @@ const ChatBox = (props) => {
                         <>
                             {item.user._id == props.user._id ?
                                     <Layout>
-                                        <Text textAlign="end" fontWeight="700" fontSize="14px">{get_username(item.user)}</Text>
+                                        <Text textAlign="end" fontWeight="700" fontSize="14px" color="whiteAlpha.900">{get_username(item.user)}</Text>
                                         <HStack justifyContent="end">
-                                            <Box px={3} py={2} maxW="60%" bgColor="#F5F1E0" borderRadius="10px">{item.content}</Box>
+                                            <Box px={3} py={2} maxW="60%" bgColor="#F5F1E0" borderRadius="10px" >{item.content}</Box>
                                         </HStack>
-                                        <Text textAlign="end" mb={5} fontWeight="500" fontSize="10px" textColor="blackAlpha.600">{get_time(item.createdAt)}</Text>
+                                        <Text textAlign="end" mb={5} fontWeight="500" fontSize="10px" color="whiteAlpha.700">{get_time(item.createdAt)}</Text>
                                     </Layout>
                                         :
                                     <Layout>
-                                        <Text textAlign="start" fontWeight="700" fontSize="14px">{get_username(item.user)}</Text>
+                                        <Text textAlign="start" fontWeight="700" fontSize="14px" color="whiteAlpha.900">{get_username(item.user)}</Text>
                                         <HStack justifyContent="start">
                                             <Box px={3} py={2} maxW="60%" bgColor="white" borderRadius="10px">{item.content}</Box>
                                         </HStack>
-                                        <Text textAlign="start" mb={5} fontWeight="500" fontSize="10px" textColor="blackAlpha.600">{get_time(item.createdAt)}</Text>
+                                        <Text textAlign="start" mb={5} fontWeight="500" fontSize="10px" color="whiteAlpha.700">{get_time(item.createdAt)}</Text>
                                     </Layout>
                             }
                             {active ? refresh() : null}
