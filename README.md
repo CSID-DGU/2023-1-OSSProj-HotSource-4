@@ -163,13 +163,15 @@ npm install .
 ```
 실행
 ```
-MogoDB compress 설치 후 DB 연결
+MogoDB compress 설치 후 몽고 DB 연결
 
 로컬 환경에서 .env 파일 생성 후 DB URL, jwt secret, PORT 입력
 
-유저 더미 데이터셋 csv 파일을 DB에 추가
+수강생에 대한 더미 데이터 생성을 위해 server.js에서 주석처리 된 await initData()를 실행
 
-npm start server 또는 yarn dev (더미 데이터를 생성할 경우 server.js에서 await initData(); 에 주석 취소해주시기 바랍니다.)
+더미 데이터에 대한 정보는 passwords.log 파일에서 확인
+
+npm start server 또는 yarn dev
 
 npm start
 ```
